@@ -6,3 +6,7 @@ cache: yarn
 script:
 - yarn lint
 - yarn test
+- cd bitcoin-testnet3-front-end
+- yarn
+- yarn test
+- yarn build
