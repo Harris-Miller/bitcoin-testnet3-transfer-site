@@ -50,6 +50,14 @@ const styles = theme => ({
   },
   flex: {
     flex: 1
+  },
+  anchorInheritColor: {
+    '&:link': {
+      color: 'inherit'
+    },
+    '&:visited': {
+      color: 'inherit'
+    }
   }
 });
 
@@ -91,7 +99,9 @@ class ResponsiveDrawer extends React.Component {
               Responsive drawer
             </Typography>
             <div>
-              <Octicon name="mark-github" mega />
+              <a href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site" target="_blank" className={classes.anchorInheritColor}>
+                <Octicon name="mark-github" mega />
+              </a>
             </div>
           </Toolbar>
         </AppBar>
