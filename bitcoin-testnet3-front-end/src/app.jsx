@@ -4,9 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import {
   BrowserRouter as Router,
   Route,
+  Switch
 } from 'react-router-dom'
 import store from './store';
 import Intro from './scenes/intro';
+import NotFound from './scenes/not-found';
 
 class App extends Component {
   render() {
@@ -15,7 +17,10 @@ class App extends Component {
         <Fragment>
           <CssBaseline />
           <Router>
-            <Route extact path="/" component={Intro} />
+              <Switch>
+                <Route exact path="/" component={Intro} />
+                <Route component={NotFound} />
+              </Switch>
           </Router>
         </Fragment>
       </Provider>
