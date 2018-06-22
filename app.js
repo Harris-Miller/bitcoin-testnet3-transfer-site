@@ -13,6 +13,7 @@ app.use(cookieParser());
 
 
 app.use('/api', require('./routes/api'));
+app.use('/callbacks', require('./routes/callbacks'));
 app.use('/static', express.static(path.join(__dirname, 'bitcoin-testnet3-front-end/build/static')));
 app.use(express.static(path.join(__dirname, 'bitcoin-testnet3-front-end/build')));
 
