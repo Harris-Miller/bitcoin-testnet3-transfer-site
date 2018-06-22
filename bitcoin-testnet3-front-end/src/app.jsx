@@ -7,6 +7,7 @@ import {
   Switch
 } from 'react-router-dom'
 import store from './store';
+import ResponsiveDrawer from './components/responsive-drawer'
 import Intro from './scenes/intro';
 import NotFound from './scenes/not-found';
 
@@ -17,10 +18,12 @@ class App extends Component {
         <Fragment>
           <CssBaseline />
           <Router>
+            <ResponsiveDrawer>
               <Switch>
                 <Route exact path="/" component={Intro} />
                 <Route component={NotFound} />
               </Switch>
+            </ResponsiveDrawer>
           </Router>
         </Fragment>
       </Provider>
