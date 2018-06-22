@@ -1,0 +1,3 @@
+{
+  "extends": ["eslint-config-harris/node-recommended", "eslint-config-harris/filenames"]
+}
