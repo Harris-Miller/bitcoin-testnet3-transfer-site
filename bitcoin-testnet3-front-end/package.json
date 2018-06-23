@@ -2,6 +2,7 @@
   "name": "bitcoin-testnet3-front-end",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3000/api",
   "dependencies": {
     "@material-ui/core": "^1.2.3",
     "@material-ui/icons": "^1.1.0",

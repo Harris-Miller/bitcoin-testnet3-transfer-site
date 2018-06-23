@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
+import Button from '@material-ui/core/Button';
 import Octicon from 'react-octicon';
 
 const drawerWidth = 240;
@@ -63,7 +65,7 @@ const styles = theme => ({
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false,
+    mobileOpen: false
   };
 
   handleDrawerToggle = () => {
@@ -99,7 +101,17 @@ class ResponsiveDrawer extends React.Component {
               Responsive drawer
             </Typography>
             <div>
-              <a href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site" target="_blank" className={classes.anchorInheritColor}>
+              <Link to="/api/auth" target="_self">
+                <Button variant="outlined" onClick={this.login}>
+                  Login
+                </Button>
+              </Link>
+              <a
+                href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.anchorInheritColor}
+              >
                 <Octicon name="mark-github" mega />
               </a>
             </div>
