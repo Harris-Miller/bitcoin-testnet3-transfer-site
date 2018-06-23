@@ -1,6 +1,6 @@
 'use strict';
 
-const createError = require('http-errors');
+// const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -9,30 +9,36 @@ const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2');
-
-// const db = require('./db');
+const db = require('./db');
 
 const app = express();
 
-// db.connect();
+db.connect();
 
 passport.use(new GitHubStrategy({
-    clientID: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/api/auth/callback"
-  },
-  (accessToken, refreshToken, profile, done) => {
-    console.log(profile);
-    return done (null, profile);
-  }
-));
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  callbackURL: process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000/api/auth/callback'
+    : 'https://bitcoin-testnet3-transfer-site.herokuapp.com/api/auth/callback'
+},
+(accessToken, refreshToken, profile, done) => {
+  const { id, displayName, photos } = profile;
+  const photoUrl = photos && photos[0] && photos[0].value;
 
-passport.serializeUser(function(user, next) {
-  next(null, user);
+  db.user.read({ id })
+    .then(user => (!user ? db.user.create({ id, displayName, photoUrl }) : db.user.update(id, { displayName, photoUrl })))
+    .then(() => done(null, { id, displayName, photoUrl }));
+}));
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(obj, next) {
-  next(null, obj);
+passport.deserializeUser((id, done) => {
+  db.user.read({ id }).then(user => {
+    done(null, user);
+  });
 });
 
 app.use(logger('dev'));
@@ -42,7 +48,7 @@ app.use(cookieParser());
 app.use(session({
   store: new RedisStore({
     host: 'localhost',
-    port: 6379,
+    port: 6379
   }),
   secret: 'keyboard cat',
   saveUninitialized: false,
@@ -56,7 +62,7 @@ app.use('/static', express.static(path.join(__dirname, 'bitcoin-testnet3-front-e
 app.use(express.static(path.join(__dirname, 'bitcoin-testnet3-front-end/build')));
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

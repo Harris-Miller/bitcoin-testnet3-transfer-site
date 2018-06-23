@@ -101,11 +101,11 @@ class ResponsiveDrawer extends React.Component {
               Responsive drawer
             </Typography>
             <div>
-              <Link to="/api/auth" target="_self">
+              <a href="http://localhost:3000/api/auth" target="_self">
                 <Button variant="outlined" onClick={this.login}>
                   Login
                 </Button>
-              </Link>
+              </a>
               <a
                 href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
                 target="_blank"
