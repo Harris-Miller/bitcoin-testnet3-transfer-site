@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
-import Button from '@material-ui/core/Button';
 import Octicon from 'react-octicon';
 
 const drawerWidth = 240;
@@ -73,14 +70,6 @@ class ResponsiveDrawer extends React.Component {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
 
-  login = () => {
-    axios.get('http://localhost:3000/api/auth').then((...args) => console.log(args));
-  }
-
-  logout = () => {
-    axios.get('http://localhost:3000/api/auth/logout').then(() => console.log('logged out'));
-  };
-
   render() {
     const { classes, theme } = this.props;
 
@@ -110,12 +99,6 @@ class ResponsiveDrawer extends React.Component {
               Responsive drawer
             </Typography>
             <div>
-              <Button variant="outlined" onClick={this.login}>
-                Login
-              </Button>
-              <Button variant="outlined" onClick={this.logout}>
-                Logout
-              </Button>
               <a
                 href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
                 target="_blank"
