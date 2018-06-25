@@ -32,9 +32,12 @@ const postgres = {
   },
 
   user: {
-    create({ id, displayName, photoUrl }) {
+    query: user,
+    create({ id, email, password, displayName, photoUrl }) {
       return user.create({
         id,
+        email,
+        password,
         displayName,
         photoUrl
       });

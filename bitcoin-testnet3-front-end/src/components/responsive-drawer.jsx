@@ -9,8 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import Octicon from 'react-octicon';
+import SignupDialog from './signup-dialog';
 
 const drawerWidth = 240;
 
@@ -63,12 +65,21 @@ const styles = theme => ({
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false
+    mobileOpen: false,
+    signupDialogOpen: false
   };
 
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
+
+  openSignupDialog = () => {
+    this.setState({ signupDialogOpen: true });
+  };
+
+  onSignupDialogClose = () => {
+    this.setState({ signupDialogOpen: false });
+  }
 
   render() {
     const { classes, theme } = this.props;
@@ -99,6 +110,7 @@ class ResponsiveDrawer extends React.Component {
               Responsive drawer
             </Typography>
             <div>
+              <Button color="inherit" onClick={this.openSignupDialog}>Login</Button>
               <a
                 href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
                 target="_blank"
@@ -140,6 +152,7 @@ class ResponsiveDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           {this.props.children}
+          <SignupDialog open={this.state.signupDialogOpen} onClose={this.onSignupDialogClose} />
         </main>
       </div>
     );

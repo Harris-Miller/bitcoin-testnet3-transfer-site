@@ -1,16 +1,32 @@
 'use strict';
 
 const express = require('express');
-const passport = require('passport');
+const bcrypt = require("bcrypt");
 const createError = require('http-errors');
 const router = express.Router();
 const db = require('../../db');
 
-router.route('/').get(passport.authorize('github'), (req, res, next) => {
-  db.user.read()
-    .then(users => res.json(users))
-    .catch(err => next(createError.InternalServerError(err)));
-});
+router.router('/').post((req, res, next) => {
+  const { email, password, displayName } = req.body;
+
+  if (!email || !password || !displayName) {
+    return next(createError.BadRequest('Invalid Credentials'));
+  }
+
+  const passwordDigest = bcrypt.hasSync(password, 10);
+
+  db.user.create({
+    email,
+    password: passwordDigest,
+    displayName
+  }).then(newUser => {
+    const { password, ...rest } = newUser;
+    res.status(201);
+    res.json(rest);
+  }).catch(err => {
+    next(createError.InternalServerError(err));
+  });
+})
 
 router.route('/:id').get((req, res, next) => {
   db.user.read({ id: req.params.id })
