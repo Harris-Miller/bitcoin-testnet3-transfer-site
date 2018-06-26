@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import immutableProptypes from 'react-immutable-proptypes';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -64,7 +66,13 @@ const styles = theme => ({
   }
 });
 
-class ResponsiveDrawer extends React.Component {
+class ResponsiveDrawer extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
+    auth: immutableProptypes.map.isRequired
+  };
+
   state = {
     mobileOpen: false,
     signupDialogOpen: false,
@@ -76,7 +84,23 @@ class ResponsiveDrawer extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, auth } = this.props;
+
+    console.log(auth.get('user'));
+
+    const loggedOut = (
+      <Fragment>
+        <Button color="inherit" onClick={() => this.setState({ signupDialogOpen: true })}>Signup</Button>
+        <Button color="inherit" onClick={() => this.setState({ loginDialogOpen: true })}>Login</Button>
+      </Fragment>
+    );
+
+    const loggedIn = (
+      <Fragment>
+        <Typography>{auth.has('user') && auth.get('user').username}</Typography>
+        <Button color="inherit" onClick={() => this.logout}>Logout</Button>
+      </Fragment>
+    );
 
     const drawer = (
       <div>
@@ -104,8 +128,7 @@ class ResponsiveDrawer extends React.Component {
               Responsive drawer
             </Typography>
             <div>
-              <Button color="inherit" onClick={() => this.setState({ signupDialogOpen: true })}>Signup</Button>
-              <Button color="inherit" onClick={() => this.setState({ loginDialogOpen: true })}>Login</Button>
+              {auth.get('isAuthenticated') ? loggedIn : loggedOut}
               <a
                 href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
                 target="_blank"
@@ -155,9 +178,8 @@ class ResponsiveDrawer extends React.Component {
   }
 }
 
-ResponsiveDrawer.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-};
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(ResponsiveDrawer));

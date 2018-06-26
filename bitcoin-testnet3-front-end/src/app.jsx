@@ -18,7 +18,7 @@ const jwtToken = localStorage.getItem('jwtToken');
 
 if (jwtToken) {
   setAuthorizationToken(jwtToken);
-  store.dispatch(setCurrentUser(jwt.decode(jwtToken)))
+  store.dispatch(setCurrentUser(jwt.decode(jwtToken)));
 }
 
 class App extends Component {
