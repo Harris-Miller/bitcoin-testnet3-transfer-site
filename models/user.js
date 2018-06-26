@@ -1,7 +1,9 @@
-const camelcase = require('lodash.camelcase');
-const snakecase = require('lodash.snakecase');
 const bookshelf = require('../bookshelf');
+const Address = require('./address');
 
 module.exports = bookshelf.Model.extend({
-  tableName: 'users'
+  tableName: 'users',
+  addresses() {
+    return this.hasMany(Address)
+  }
 });
