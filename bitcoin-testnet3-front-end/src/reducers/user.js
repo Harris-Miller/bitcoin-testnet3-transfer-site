@@ -1,10 +1,15 @@
 import immutable from 'immutable';
 import { SET_CURRENT_USER } from '../actions/auth';
 
-export default (state = new immutable.Map(), action) => {
+const initialState = {
+  isAuthenticated: false,
+  user: null
+};
+
+export default (state = new immutable.Map(initialState), action = {}) => {
   switch (action.type) {
     case SET_CURRENT_USER:
-      return state.set('currentUser', action.user);
+      return state.set('isAuthenticated', !action.user).set('currentUser', action.user);
     default:
       return state;
   }

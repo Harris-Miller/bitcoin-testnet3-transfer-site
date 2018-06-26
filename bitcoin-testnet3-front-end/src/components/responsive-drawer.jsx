@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import Octicon from 'react-octicon';
 import SignupDialog from './signup-dialog';
+import LoginDialog from './login-dialog';
 
 const drawerWidth = 240;
 
@@ -66,20 +67,13 @@ const styles = theme => ({
 class ResponsiveDrawer extends React.Component {
   state = {
     mobileOpen: false,
-    signupDialogOpen: false
+    signupDialogOpen: false,
+    loginDialogOpen: false
   };
 
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
-
-  openSignupDialog = () => {
-    this.setState({ signupDialogOpen: true });
-  };
-
-  onSignupDialogClose = () => {
-    this.setState({ signupDialogOpen: false });
-  }
 
   render() {
     const { classes, theme } = this.props;
@@ -110,7 +104,8 @@ class ResponsiveDrawer extends React.Component {
               Responsive drawer
             </Typography>
             <div>
-              <Button color="inherit" onClick={this.openSignupDialog}>Login</Button>
+              <Button color="inherit" onClick={() => this.setState({ signupDialogOpen: true })}>Signup</Button>
+              <Button color="inherit" onClick={() => this.setState({ loginDialogOpen: true })}>Login</Button>
               <a
                 href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
                 target="_blank"
@@ -152,7 +147,8 @@ class ResponsiveDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           {this.props.children}
-          <SignupDialog open={this.state.signupDialogOpen} onClose={this.onSignupDialogClose} />
+          <SignupDialog open={this.state.signupDialogOpen} onClose={() => this.setState({ signupDialogOpen: false })} />
+          <LoginDialog open={this.state.loginDialogOpen} onClose={() => this.setState({ loginDialogOpen: false })} />
         </main>
       </div>
     );
