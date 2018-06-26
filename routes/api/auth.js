@@ -11,21 +11,19 @@ const config = require('../../config');
 router.route('/').post((req, res, next) => {
   const { email, password } = req.body;
 
-  console.log(email, password);
-
   User
     .query(qb => qb.where({ email }))
     .fetch()
     .then(user => {
-      if(user && bcrypt.compareSync(password, user.get('passwordDigest'))) {
+      if (user && bcrypt.compareSync(password, user.get('passwordDigest'))) {
         const token = jwt.sign({
           id: user.get('id'),
-          username: user.get('username'),
+          username: user.get('username')
         }, config.jwtSecret);
 
         res.json({ token });
       } else {
-        return next(createError.Unauthorized('Invalid Credentials'));
+        return next(new createError.Unauthorized('Invalid Credentials'));
       }
     });
 });

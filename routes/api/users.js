@@ -6,7 +6,7 @@ const createError = require('http-errors');
 const router = new express.Router();
 const User = require('../../models/user');
 
-router.route('/').get((req, res, next) => {
+router.route('/').get((req, res) => {
   User
     .query(qb => qb.select('id', 'username', 'email'))
     .fetchAll()
@@ -32,7 +32,7 @@ router.route('/').post((req, res, next) => {
     })
     .save()
     .then(newUser => {
-      const { passwordDigest, ...rest } = newUser.attributes;
+      const { passwordDigest: _, ...rest } = newUser.attributes;
       res.status(201);
       res.json(rest);
     }).catch(err => next(new createError.InternalServerError(err)));

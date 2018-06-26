@@ -26,6 +26,7 @@ app.use('/static', express.static(path.join(__dirname, 'bitcoin-testnet3-front-e
 app.use(express.static(path.join(__dirname, 'bitcoin-testnet3-front-end/build')));
 
 // error handler
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
