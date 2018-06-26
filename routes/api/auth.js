@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = new express.Router();
 const User = require('../../models/user');
+const config = require('../../config');
 
 router.route('/').post((req, res, next) => {
   const { email, password } = req.body;
@@ -20,7 +21,7 @@ router.route('/').post((req, res, next) => {
         const token = jwt.sign({
           id: user.get('id'),
           username: user.get('username'),
-        }, 'jwtSecret'); // TODO: use something better for this
+        }, config.jwtSecret);
 
         res.json({ token });
       } else {
