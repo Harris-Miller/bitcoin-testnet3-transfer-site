@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "eslint db routes test *.js",
     "start": "node ./bin/www",
+    "start:dev": "nodemon --watch app.js --watch middleware --watch models --watch routes --exec node -- ./bin/www",
     "test": "nyc mocha"
   },
   "dependencies": {
@@ -18,6 +19,7 @@
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.14.6",
     "morgan": "~1.9.0",
+    "nodemon": "^1.17.5",
     "pg": "^7.4.3",
     "socket.io": "^2.1.1"
   },

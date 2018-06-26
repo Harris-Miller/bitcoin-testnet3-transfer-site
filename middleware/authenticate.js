@@ -13,25 +13,16 @@ const authenticate = (req, res, next) => {
   }
 
   if (token) {
-    try {
-      const decoded = jwt.verify(token, config.jwtSecret);
+    jwt.verify(token, config.jwtSecret, (err, decoded) => {
+      if (err) {
+        return next(new createError.Unauthorized())
+      }
 
-      User.query({
-        where: { id: decoded.id}
-        select: ['id', 'username', 'email']
-      }).fetch().then(user => {
-        if (!user) {
-          return next(new createError.Unauthorized());
-        }
-
-        req.user = user;
-        return next();
-      });
-    } catch(err) {
-      next(new createError.Unauthorized());
-    }
+      req.userId = decoded.id;
+      return next();
+    });
   } else {
-    next(new createError.Unauthorized());
+    next(new createError.Forbidden());
   }
 };
 

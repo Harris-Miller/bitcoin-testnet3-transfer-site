@@ -91,8 +91,6 @@ class ResponsiveDrawer extends Component {
   render() {
     const { classes, theme, auth } = this.props;
 
-    console.log(auth.get('user'));
-
     const loggedOut = (
       <Fragment>
         <Button color="inherit" onClick={() => this.setState({ signupDialogOpen: true })}>Signup</Button>

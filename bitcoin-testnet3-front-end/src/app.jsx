@@ -6,19 +6,17 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
 import store from './store';
 import ResponsiveDrawer from './components/responsive-drawer'
 import Intro from './scenes/intro';
 import NotFound from './scenes/not-found';
-import setAuthorizationToken from './utils/set-authorization-token';
 import { setCurrentUser } from './actions/auth';
 
 const jwtToken = localStorage.getItem('jwtToken');
 
-if (jwtToken) {
-  setAuthorizationToken(jwtToken);
-  store.dispatch(setCurrentUser(jwt.decode(jwtToken)));
+// if item does not exist in localStorage, it returns string null, wtf!
+if (jwtToken && jwtToken !== 'null') {
+  store.dispatch(setCurrentUser(jwtToken));
 }
 
 class App extends Component {
