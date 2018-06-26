@@ -16,6 +16,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Octicon from 'react-octicon';
 import SignupDialog from './signup-dialog';
 import LoginDialog from './login-dialog';
+import { removeCurrentUser } from '../actions/auth';
 
 const drawerWidth = 240;
 
@@ -83,6 +84,10 @@ class ResponsiveDrawer extends Component {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
 
+  logout = () => {
+    this.props.dispatch(removeCurrentUser());
+  };
+
   render() {
     const { classes, theme, auth } = this.props;
 
@@ -98,7 +103,7 @@ class ResponsiveDrawer extends Component {
     const loggedIn = (
       <Fragment>
         <Typography>{auth.has('user') && auth.get('user').username}</Typography>
-        <Button color="inherit" onClick={() => this.logout}>Logout</Button>
+        <Button color="inherit" onClick={() => this.logout()}>Logout</Button>
       </Fragment>
     );
 

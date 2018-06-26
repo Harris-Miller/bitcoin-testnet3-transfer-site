@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 // import withMobileDialog from '@material-ui/core/withMobileDialog';
 import { withStyles } from '@material-ui/core/styles';
 import TextInput from './text-input';
-import { login } from '../actions/auth';
+import { login, setCurrentUser } from '../actions/auth';
 
 const styles = theme => ({
   dialog: {
@@ -61,7 +61,14 @@ class LoginDialog extends Component {
       return;
     }
 
-    this.props.dispatch(login({ email, password }))
+    login({ email, password })
+      .then(token => {
+        this.props.dispatch(setCurrentUser(token));
+        this.handleClose();
+      })
+      .catch(err => {
+        // TODO
+      });
   }
 
   handleTextChange = name => ({ target }) => this.setState({ [name]: target.value });

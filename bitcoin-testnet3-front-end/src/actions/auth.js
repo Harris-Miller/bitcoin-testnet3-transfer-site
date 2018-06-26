@@ -5,7 +5,19 @@ import jwt from 'jsonwebtoken';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
 
-export function setCurrentUser(user) {
+export function removeCurrentUser() {
+  localStorage.removeItem('jwtToken');
+  setAuthorizationToken();
+  return {
+    type: REMOVE_CURRENT_USER
+  };
+}
+
+export function setCurrentUser(token) {
+  localStorage.setItem('jwtToken', token);
+  setAuthorizationToken(token);
+  const user = jwt.decode(token);
+
   return {
     type: SET_CURRENT_USER,
     user
@@ -13,12 +25,7 @@ export function setCurrentUser(user) {
 }
 
 export function login(data) {
-  return axios.post('http://localhost:3000/api/auth', data).then(res => {
-    const token = res.data.token;
-    localStorage.setItem('jwtToken', token);
-    setAuthorizationToken(token);
-    return setCurrentUser(jwt.decode(token));
-  });
+  return axios.post('http://localhost:3000/api/auth', data).then(res => res.data.token);
 }
 
 export function singupUser(userObj) {
