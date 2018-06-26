@@ -14,7 +14,7 @@ const styles = theme => ({
 });
 
 const Fab = props => {
-  const { classes,onClick } = props;
+  const { classes, onClick } = props;
   return (
     <div>
       <Tooltip title="Add an address">
