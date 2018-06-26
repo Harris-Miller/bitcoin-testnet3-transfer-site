@@ -5,12 +5,14 @@ const createError = require('http-errors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = new express.Router();
-const db = require('../../db');
+const User = require('../../models/user');
 
 router.post('/'), (req, res, next) => {
   const = { email, password } = req.body;
 
-  db.user.query.findOne({ where: { email }})
+  User
+    .query(qb => qb.where({ email }))
+    .fetch()
     .then(user => {
       if(user && bcrypt.compareSync(password, user.password)) {
         const token = jwt.sign({
@@ -18,13 +20,12 @@ router.post('/'), (req, res, next) => {
           displayName: user.displayName,
           photoUrl: user.photoUrl
         }, 'jwtSecret'); // TODO: use something better for this
+
+        res.json({ token });
       } else {
         return next(createError.Unauthorized('Invalid Credentials'));
       }
-    })
-});
-
-router.get(() => {
+    });
 });
 
 module.exports = router;

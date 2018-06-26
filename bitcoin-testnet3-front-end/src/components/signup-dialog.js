@@ -15,6 +15,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { withStyles } from '@material-ui/core/styles';
 import TextInput from './text-input';
 
+import axios from 'axios';
+
 const styles = theme => ({
   dialog: {
     [theme.breakpoints.down('md')]: {
@@ -89,6 +91,9 @@ class SignupDialog extends Component {
 
     // TODO
     // action to signup user
+    axios.post('/api/users', { username, email, password }).then(user => {
+      console.log(user);
+    });
   }
 
   handleTextChange = name => ({ target }) => this.setState({ [name]: target.value });
