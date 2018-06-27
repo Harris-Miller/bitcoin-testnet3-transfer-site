@@ -7,7 +7,7 @@ import {
   Switch
 } from 'react-router-dom';
 import store from './store';
-import ResponsiveDrawer from './components/responsive-drawer'
+import Wrapper from './scenes/wrapper';
 import Intro from './scenes/intro';
 import NotFound from './scenes/not-found';
 import { setCurrentUser } from './actions/auth';
@@ -26,12 +26,12 @@ class App extends Component {
         <Fragment>
           <CssBaseline />
           <Router>
-            <ResponsiveDrawer>
+            <Wrapper>
               <Switch>
                 <Route exact path="/" component={Intro} />
                 <Route component={NotFound} />
               </Switch>
-            </ResponsiveDrawer>
+            </Wrapper>
           </Router>
         </Fragment>
       </Provider>

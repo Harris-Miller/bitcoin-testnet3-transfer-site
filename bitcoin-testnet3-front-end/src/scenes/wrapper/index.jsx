@@ -7,6 +7,8 @@ import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
@@ -14,11 +16,11 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import Octicon from 'react-octicon';
-import Fab from './fab';
-import SignupDialog from './signup-dialog';
-import LoginDialog from './login-dialog';
-import AddAddressDialog from './add-address-dialog';
-import { removeCurrentUser } from '../actions/auth';
+import Fab from '../../components/fab';
+import SignupDialog from '../../components/signup-dialog';
+import LoginDialog from '../../components/login-dialog';
+import AddAddressDialog from '../../components/add-address-dialog';
+import { removeCurrentUser } from '../../actions/auth';
 
 const drawerWidth = 240;
 
@@ -95,24 +97,35 @@ class ResponsiveDrawer extends Component {
     const { classes, theme, auth } = this.props;
 
     const loggedOut = (
-      <Fragment>
-        <Button color="inherit" onClick={() => this.setState({ signupDialogOpen: true })}>Signup</Button>
-        <Button color="inherit" onClick={() => this.setState({ loginDialogOpen: true })}>Login</Button>
-      </Fragment>
+      <List>
+        <ListItem button onClick={() => this.setState({ signupDialogOpen: true })}>
+          <ListItemText primary="Signup" />
+        </ListItem>
+        <ListItem button onClick={() => this.setState({ loginDialogOpen: true })}>
+          <ListItemText primary="Login" />
+        </ListItem>
+      </List>
     );
 
     const loggedIn = (
-      <Fragment>
-        <Typography>{auth.has('user') && auth.get('user').username}</Typography>
-        <Button color="inherit" onClick={() => this.logout()}>Logout</Button>
-      </Fragment>
+      <List>
+        <ListItem button onClick={() => this.logout()}>
+          <ListItemText primary="Logout" />
+        </ListItem>
+      </List>
     );
 
     const drawer = (
       <div>
-        <div className={classes.toolbar} />
+        <div className={classes.toolbar}>
+          <List>
+            <ListItem>
+              <ListItemText primary={auth.has('user') && auth.get('user').username} />
+            </ListItem>
+          </List>
+        </div>
         <Divider />
-        <List></List>
+          {auth.get('isAuthenticated') ? loggedIn : loggedOut}
         <Divider />
         <List></List>
       </div>
@@ -134,7 +147,6 @@ class ResponsiveDrawer extends Component {
               Testnet3
             </Typography>
             <div>
-              {auth.get('isAuthenticated') ? loggedIn : loggedOut}
               <a
                 href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
                 target="_blank"
