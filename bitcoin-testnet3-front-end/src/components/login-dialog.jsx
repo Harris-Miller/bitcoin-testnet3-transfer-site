@@ -6,18 +6,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-// import withMobileDialog from '@material-ui/core/withMobileDialog';
-import { withStyles } from '@material-ui/core/styles';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 import TextInput from './text-input';
 import { login, setCurrentUser } from '../actions/auth';
-
-const styles = theme => ({
-  dialog: {
-    [theme.breakpoints.down('md')]: {
-      width: '80%'
-    }
-  },
-});
 
 class LoginDialog extends Component {
   state = {
@@ -79,7 +70,6 @@ class LoginDialog extends Component {
     return (
       <div>
         <Dialog
-          classes={{ paper: classes.dialog }}
           onClose={this.handleClose}
           {...rest}
         >
@@ -123,4 +113,4 @@ class LoginDialog extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(LoginDialog));
+export default connect()(withMobileDialog()(LoginDialog));

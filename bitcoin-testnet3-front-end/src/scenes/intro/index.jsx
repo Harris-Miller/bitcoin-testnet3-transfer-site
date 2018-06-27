@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
-import Fab from '../../components/fab';
 import logo from './logo.svg';
 import './index.css';
 
@@ -26,7 +25,6 @@ class Intro extends Component {
         </p>
         <Link to="/not-found">Link to not-found</Link>
         <Button onClick={this.getUsers}>Get Users</Button>
-        <Fab />
       </div>
     );
   }

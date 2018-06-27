@@ -5,19 +5,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-// import withMobileDialog from '@material-ui/core/withMobileDialog';
-import { withStyles } from '@material-ui/core/styles';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 import TextInput from './text-input';
-
-import axios from 'axios';
-
-const styles = theme => ({
-  dialog: {
-    [theme.breakpoints.down('md')]: {
-      width: '80%'
-    }
-  },
-});
+import { singupUser, login, setCurrentUser } from '../actions/auth';
 
 class SignupDialog extends Component {
   state = {
@@ -83,11 +73,15 @@ class SignupDialog extends Component {
       return;
     }
 
-    // TODO
-    // action to signup user
-    axios.post('/api/users', { username, email, password }).then(user => {
-      console.log(user);
-    });
+    singupUser({ username, email, password })
+      .then(() => login({ email, password }))
+      .then(token => {
+        this.props.dispatch(setCurrentUser(token));
+        this.handleClose();
+      })
+      .catch(err => {
+        // TODO
+      });
   }
 
   handleTextChange = name => ({ target }) => this.setState({ [name]: target.value });
@@ -96,7 +90,6 @@ class SignupDialog extends Component {
     const { onClose, classes, ...rest } = this.props;
     return (
       <Dialog
-        classes={{ paper: classes.dialog }}
         onClose={this.handleClose}
         {...rest}
       >
@@ -160,4 +153,4 @@ class SignupDialog extends Component {
   }
 }
 
-export default withStyles(styles)(SignupDialog);
+export default withMobileDialog()(SignupDialog);

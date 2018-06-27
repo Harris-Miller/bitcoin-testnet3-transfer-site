@@ -30,5 +30,5 @@ export function login(data) {
 }
 
 export function singupUser(userObj) {
-  return axios.post('/api/users', userObj).then(user => setCurrentUser(user));
+  return axios.post('http://localhost:3000/api/users', userObj).then(res => res.data);
 }

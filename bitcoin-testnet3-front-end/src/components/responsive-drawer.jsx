@@ -14,8 +14,10 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import Octicon from 'react-octicon';
+import Fab from './fab';
 import SignupDialog from './signup-dialog';
 import LoginDialog from './login-dialog';
+import AddAddressDialog from './add-address-dialog';
 import { removeCurrentUser } from '../actions/auth';
 
 const drawerWidth = 240;
@@ -77,7 +79,8 @@ class ResponsiveDrawer extends Component {
   state = {
     mobileOpen: false,
     signupDialogOpen: false,
-    loginDialogOpen: false
+    loginDialogOpen: false,
+    addressDialogOpen: false
   };
 
   handleDrawerToggle = () => {
@@ -128,7 +131,7 @@ class ResponsiveDrawer extends Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" noWrap className={classes.flex}>
-              Responsive drawer
+              Testnet3
             </Typography>
             <div>
               {auth.get('isAuthenticated') ? loggedIn : loggedOut}
@@ -173,8 +176,10 @@ class ResponsiveDrawer extends Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           {this.props.children}
+          <Fab onClick={() => this.setState({ addressDialogOpen: true })} />
           <SignupDialog open={this.state.signupDialogOpen} onClose={() => this.setState({ signupDialogOpen: false })} />
           <LoginDialog open={this.state.loginDialogOpen} onClose={() => this.setState({ loginDialogOpen: false })} />
+          <AddAddressDialog open={this.state.addressDialogOpen} onClose={() => this.setState({ addressDialogOpen: false })} />
         </main>
       </div>
     );
