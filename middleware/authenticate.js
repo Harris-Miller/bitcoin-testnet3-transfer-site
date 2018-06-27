@@ -1,6 +1,6 @@
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
-const User = require('./models/user');
+const User = require('../models/user');
 const config = require('../config');
 
 const authenticate = (req, res, next) => {

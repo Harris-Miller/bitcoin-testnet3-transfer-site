@@ -3,8 +3,11 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const createError = require('http-errors');
+const axios = require('axios');
 const router = new express.Router();
 const User = require('../../models/user');
+const Address = require('../../models/address');
+const authenticate = require('../../middleware/authenticate');
 
 router.route('/').get((req, res) => {
   User
@@ -36,6 +39,28 @@ router.route('/').post((req, res, next) => {
       res.status(201);
       res.json(rest);
     }).catch(err => next(new createError.InternalServerError(err)));
+});
+
+router.route('/:id/addresses').get((req, res, next) => {
+  // if (req.userId !== req.params.id) {
+  //   return next(new createError.Unauthorized());
+  // }
+
+  Address
+    .query({
+      where: { user_id: req.params.id }
+    })
+    .fetchAll()
+    .then(results => {
+      // return results.map(r => r.get('key'));
+      return Promise.all(results.map(r => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${r.get('key')}`).then(({ data }) => data)));
+    }).then(results => {
+      res.json(results);
+    });
+});
+
+router.route('/:id/addresses').post((req, res, next) => {
+
 });
 
 // router.route('/:id').get((req, res, next) => {
