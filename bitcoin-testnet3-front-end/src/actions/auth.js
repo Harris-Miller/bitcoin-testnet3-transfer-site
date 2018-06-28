@@ -2,10 +2,10 @@ import axios from 'axios';
 import setAuthorizationToken from '../utils/set-authorization-token';
 import jwtDecode from 'jwt-decode';
 
+const apiHost = process.env.REACT_APP_API_HOST;
+
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
-
-const apiHost = process.env.REACT_APP_API_HOST;
 
 export function removeCurrentUser() {
   localStorage.removeItem('jwtToken');

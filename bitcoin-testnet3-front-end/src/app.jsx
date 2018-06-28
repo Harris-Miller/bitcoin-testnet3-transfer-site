@@ -9,14 +9,17 @@ import {
 import store from './store';
 import Wrapper from './scenes/wrapper';
 import Intro from './scenes/intro';
+import Address from './scenes/address';
 import NotFound from './scenes/not-found';
 import { setCurrentUser } from './actions/auth';
+import { getAddresses } from './actions/address';
 
 const jwtToken = localStorage.getItem('jwtToken');
 
 // if item does not exist in localStorage, it returns string null, wtf!
 if (jwtToken && jwtToken !== 'null') {
   store.dispatch(setCurrentUser(jwtToken));
+  store.dispatch(getAddresses(store.getState().auth.get('user').id));
 }
 
 class App extends Component {
@@ -29,6 +32,7 @@ class App extends Component {
             <Wrapper>
               <Switch>
                 <Route exact path="/" component={Intro} />
+                <Route path="/:address" component={Address} />
                 <Route component={NotFound} />
               </Switch>
             </Wrapper>

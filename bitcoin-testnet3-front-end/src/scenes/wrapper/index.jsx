@@ -1,7 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import immutableProptypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,9 +14,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import Octicon from 'react-octicon';
+import Addresses from './addresses';
 import Fab from '../../components/fab';
 import SignupDialog from '../../components/signup-dialog';
 import LoginDialog from '../../components/login-dialog';
@@ -94,7 +95,7 @@ class ResponsiveDrawer extends Component {
   };
 
   render() {
-    const { classes, theme, auth } = this.props;
+    const { classes, theme, auth, history } = this.props;
 
     const loggedOut = (
       <List>
@@ -127,7 +128,7 @@ class ResponsiveDrawer extends Component {
         <Divider />
           {auth.get('isAuthenticated') ? loggedIn : loggedOut}
         <Divider />
-        <List></List>
+        <Addresses />
       </div>
     );
 
@@ -202,4 +203,6 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(ResponsiveDrawer));
+// because the children of this component contain react-router components
+// we have to wrap this with `withRouter` so react-router props propogates down to them
+export default withRouter(connect(mapStateToProps)(withStyles(styles, { withTheme: true })(ResponsiveDrawer)));

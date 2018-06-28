@@ -53,9 +53,12 @@ router.route('/:id/addresses').get((req, res, next) => {
     .fetchAll()
     .then(results => {
       // return results.map(r => r.get('key'));
-      return Promise.all(results.map(r => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${r.get('key')}`).then(({ data }) => data)));
+      return Promise.all(results.map(r => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${r.get('key')}/full`).then(({ data }) => ({ nickname: r.nickname, ...data }))));
     }).then(results => {
-      res.json(results);
+      res.json(results.reduce((obj, addr) => {
+        obj[addr.address] = addr;
+        return obj;
+      }, {}));
     });
 });
 
