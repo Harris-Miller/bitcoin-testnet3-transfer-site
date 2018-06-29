@@ -8,7 +8,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
-import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   nested: {
@@ -52,8 +51,6 @@ class Addresses extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  addresses: state.addresses
-});
+const mapStateToProps = ({ addresses }) => ({ addresses: addresses.toJS() });
 
 export default withRouter(connect(mapStateToProps)(withStyles(styles)(Addresses)));

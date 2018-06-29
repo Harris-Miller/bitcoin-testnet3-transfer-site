@@ -95,7 +95,7 @@ class ResponsiveDrawer extends Component {
   };
 
   render() {
-    const { classes, theme, auth, history } = this.props;
+    const { classes, theme, auth } = this.props;
 
     const loggedOut = (
       <List>
@@ -121,12 +121,12 @@ class ResponsiveDrawer extends Component {
         <div className={classes.toolbar}>
           <List>
             <ListItem>
-              <ListItemText primary={auth.has('user') && auth.get('user').username} />
+              <ListItemText primary={auth.user && auth.user.username} />
             </ListItem>
           </List>
         </div>
         <Divider />
-          {auth.get('isAuthenticated') ? loggedIn : loggedOut}
+          {auth.isAuthenticated ? loggedIn : loggedOut}
         <Divider />
         <Addresses />
       </div>
@@ -199,9 +199,7 @@ class ResponsiveDrawer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
-});
+const mapStateToProps = ({ auth }) => ({ auth: auth.toJS() });
 
 // because the children of this component contain react-router components
 // we have to wrap this with `withRouter` so react-router props propogates down to them

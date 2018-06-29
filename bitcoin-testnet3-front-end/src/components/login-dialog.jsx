@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import TextInput from './text-input';
 import { login, setCurrentUser } from '../actions/auth';
+import { getAddresses } from '../actions/address';
 
 class LoginDialog extends Component {
   state = {
@@ -30,6 +31,7 @@ class LoginDialog extends Component {
   };
 
   login = () => {
+    const { auth } = this.props;
     const { email, password } = this.state;
     
     // reset all errors
@@ -58,7 +60,7 @@ class LoginDialog extends Component {
         this.handleClose();
       })
       .catch(err => {
-        // TODO
+        console.log(err);
       });
   }
 
@@ -113,4 +115,6 @@ class LoginDialog extends Component {
   }
 }
 
-export default connect()(withMobileDialog()(LoginDialog));
+const mapStateToProps = ({ auth }) => ({ auth });
+
+export default connect(mapStateToProps)(withMobileDialog()(LoginDialog));
