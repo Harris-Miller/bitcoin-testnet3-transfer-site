@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import immutableProptypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
@@ -28,9 +27,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 430,
     zIndex: 1,
-    overflow: 'hidden',
     position: 'relative',
     display: 'flex',
     width: '100%',
@@ -40,24 +37,25 @@ const styles = theme => ({
     marginLeft: drawerWidth,
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
-    },
+    }
   },
   navIconHide: {
     [theme.breakpoints.up('md')]: {
       display: 'none',
-    },
+    }
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
     [theme.breakpoints.up('md')]: {
       position: 'relative',
-    },
+    }
   },
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
+    overflow: 'hidden'
   },
   flex: {
     flex: 1
@@ -69,6 +67,9 @@ const styles = theme => ({
     '&:visited': {
       color: 'inherit'
     }
+  },
+  scroll: {
+    overflow: 'scroll'
   }
 });
 
@@ -76,7 +77,7 @@ class ResponsiveDrawer extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
-    auth: immutableProptypes.map.isRequired
+    auth: PropTypes.object.isRequired
   };
 
   state = {
@@ -188,7 +189,9 @@ class ResponsiveDrawer extends Component {
         </Hidden>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {this.props.children}
+          <div className={classes.scroll}>
+            {this.props.children}
+          </div>
           <Fab onClick={() => this.setState({ addressDialogOpen: true })} />
           <SignupDialog open={this.state.signupDialogOpen} onClose={() => this.setState({ signupDialogOpen: false })} />
           <LoginDialog open={this.state.loginDialogOpen} onClose={() => this.setState({ loginDialogOpen: false })} />

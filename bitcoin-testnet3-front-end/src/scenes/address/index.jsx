@@ -5,7 +5,9 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import AddressTitle from './title';
 
 const styles = theme => ({
   root: {
@@ -14,7 +16,7 @@ const styles = theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
-  },
+  }
 });
 
 class Address extends Component {
@@ -26,17 +28,6 @@ class Address extends Component {
   withAddress(address) {
     const { classes } = this.props;
 
-    const title = (
-      <h1>{address.address}</h1>
-    );
-
-    const nicknametitle = (
-      <h1>
-        {address.nickname}
-        <small>{address.address}</small>
-      </h1>
-    );
-
     const transactionPanel = (txs, addr) => {
       const txsValue = txs.outputs.filter(t => t.addresses && t.addresses.includes(addr))[0].value;
 
@@ -45,16 +36,21 @@ class Address extends Component {
           <Typography className={classes.heading}>{txs.hash}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Typography>
-            {txsValue}
-          </Typography>
+          <Grid container justify="space-between">
+            <Grid item>
+              <Typography>Value: {txsValue}</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>Confirmations: {txs.confirmations}</Typography>
+            </Grid>
+          </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     )};
 
     return (
       <div>
-        {address.nickname ? nicknametitle : title}
+        <AddressTitle address={address} />
         <div className={classes.root}>
           {address.txs.map(t =>transactionPanel(t, address.address))}
         </div>

@@ -78,9 +78,6 @@ class SignupDialog extends Component {
       .then(token => {
         this.props.dispatch(setCurrentUser(token));
         this.handleClose();
-      })
-      .catch(err => {
-        // TODO
       });
   }
 

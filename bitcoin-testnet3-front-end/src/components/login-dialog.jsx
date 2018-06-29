@@ -58,9 +58,6 @@ class LoginDialog extends Component {
       .then(token => {
         this.props.dispatch(setCurrentUser(token));
         this.handleClose();
-      })
-      .catch(err => {
-        console.log(err);
       });
   }
 
