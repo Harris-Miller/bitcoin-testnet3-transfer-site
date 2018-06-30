@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -26,13 +26,13 @@ class AddressTitle extends Component {
 
     const title = (
       <Grid container className={classes.row}>
-        <Typography variant="heading">{address.address}</Typography>
+        <Typography variant="headline">{address.address}</Typography>
       </Grid>
     );
 
     const nicknametitle = (
       <Grid container className={classes.row}>
-        <Typography variant="heading">{address.nickname}</Typography>
+        <Typography variant="headline">{address.nickname}</Typography>
         <Typography variant="subheading">{address.address}</Typography>
       </Grid>
     );

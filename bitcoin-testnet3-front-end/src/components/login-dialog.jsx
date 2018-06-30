@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -9,7 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import TextInput from './text-input';
 import { login, setCurrentUser } from '../actions/auth';
-import { getAddresses } from '../actions/address';
 
 class LoginDialog extends Component {
   state = {
@@ -31,7 +29,6 @@ class LoginDialog extends Component {
   };
 
   login = () => {
-    const { auth } = this.props;
     const { email, password } = this.state;
     
     // reset all errors
@@ -112,6 +109,4 @@ class LoginDialog extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth });
-
-export default connect(mapStateToProps)(withMobileDialog()(LoginDialog));
+export default withMobileDialog()(LoginDialog);

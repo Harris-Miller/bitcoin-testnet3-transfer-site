@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -150,4 +151,4 @@ class SignupDialog extends Component {
   }
 }
 
-export default withMobileDialog()(SignupDialog);
+export default connect()(withMobileDialog()(SignupDialog));

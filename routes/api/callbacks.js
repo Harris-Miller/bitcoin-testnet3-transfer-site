@@ -3,12 +3,9 @@
 const express = require('express');
 const router = new express.Router();
 
-router.post('/unconfirmed-tx', (req, res) => {
-  res.json({ foo: 'bar' });
+router.get('/test', (req, res) => {
+  req.sockets.emit('test', { foo: 'bar' });
+  res.json({ message: 'socket.io test complete'});
 });
-
-router.post('/confirmed-tx');
-
-router.post('/tx-confirmation');
 
 module.exports = router;
