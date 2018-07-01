@@ -8,7 +8,6 @@ script:
 - cd bitcoin-testnet3-front-end
 - yarn
 - yarn test
-- yarn build
 - cd ..
 deploy:
   provider: heroku
@@ -17,8 +16,4 @@ deploy:
   app: bitcoin-testnet3-transfer-site
   run:
     - yarn db:migrate
-    - cd bitcoin-testnet3-front-end
-    - yarn install --production
-    - yarn build
-    - cd ..
     - restart
