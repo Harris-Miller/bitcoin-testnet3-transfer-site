@@ -17,4 +17,8 @@ deploy:
   app: bitcoin-testnet3-transfer-site
   run:
     - yarn db:migrate
+    - cd bitcoin-testnet3-front-end
+    - yarn install --production
+    - yarn build
+    - cd ..
     - restart
