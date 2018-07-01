@@ -10,8 +10,7 @@ const Address = require('../../models/address');
 const authenticate = require('../../middleware/authenticate');
 const addrToResObj = require('../../utils/addrToResObj');
 
-const BLOCKCYPHER_TOKEN = process.env.BLOCKCYPHER_TOKEN;
-const CALLBACK_URL = process.env.CALLBACK_URL;
+const { BLOCKCYPHER_TOKEN, CALLBACK_URL } = process.env;
 
 router.route('/').get((req, res) => {
   User
@@ -83,14 +82,13 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
           .then(result => res.status(201).json(addrToResObj([result])));
       } else {
         // first, add event to blockcypher
-        axios.post(`https://api.blockcypher.com/v1/btc/test3/hooks?token=${BLOCKCYPHER_TOKEN}`, {
-          event: 'tx-confirmation',
-          address: key,
-          url: `${CALLBACK_URL}/api/callbacks/transaction/${key}`
-        })
-        .then(({ data }) => 
-          // add it to db, then fetch expanded data, process and return
-          Address
+        axios
+          .post(`https://api.blockcypher.com/v1/btc/test3/hooks?token=${BLOCKCYPHER_TOKEN}`, {
+            event: 'tx-confirmation',
+            address: key,
+            url: `${CALLBACK_URL}/api/callbacks/transaction/${key}`
+          })
+          .then(({ data }) => Address
             .forge({
               key,
               userId,
@@ -99,10 +97,10 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
               hasTimestamps: true
             })
             .save()
-        )
-        .then(newAddress => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${newAddress.get('key')}/full`))
-        .then(({ data }) => data)
-        .then(result => res.status(201).json(addrToResObj([result])));
+          )
+          .then(newAddress => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${newAddress.get('key')}/full`))
+          .then(({ data }) => data)
+          .then(result => res.status(201).json(addrToResObj([result])));
       }
     });
 });
@@ -122,9 +120,9 @@ router.route('/:id/addresses/:address').delete(authenticate, (req, res, next) =>
         return next(new createError.BadRequest('Address does not exist for User'));
       }
 
-      return axios.delete(`https://api.blockcypher.com/v1/btc/test3/hooks/${address.get('event_id')}?token=${BLOCKCYPHER_TOKEN}`)
-        .then(() => address)
-        .then(address => address.destroy())
+      return axios
+        .delete(`https://api.blockcypher.com/v1/btc/test3/hooks/${address.get('event_id')}?token=${BLOCKCYPHER_TOKEN}`)
+        .then(() => address.destroy())
         .then(() => res.status(204).end());
     });
 });
