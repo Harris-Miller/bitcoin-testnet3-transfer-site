@@ -92,7 +92,9 @@ class ResponsiveDrawer extends Component {
   };
 
   logout = () => {
-    this.props.dispatch(removeCurrentUser());
+    const { dispatch, history } = this.props;
+    dispatch(removeCurrentUser());
+    history.push('/');
   };
 
   render() {

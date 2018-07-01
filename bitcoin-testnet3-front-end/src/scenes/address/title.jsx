@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { removeAddress, getAddresses } from '../../actions/address';
 
 const styles = theme => ({
   root: {
@@ -21,25 +26,32 @@ class AddressTitle extends Component {
     address: PropTypes.object.isRequired
   };
 
+  removeAddress = () => {
+    const { address, auth, dispatch, history } = this.props;
+    const userId = auth.user.id;
+
+    removeAddress(userId, address.address)
+      .then(address => {
+        dispatch(getAddresses(userId));
+        history.push('/');
+      });
+  };
+
   render() {
     const { classes, address } = this.props;
 
-    const title = (
-      <Grid container className={classes.row}>
-        <Typography variant="headline">{address.address}</Typography>
-      </Grid>
-    );
-
-    const nicknametitle = (
-      <Grid container className={classes.row}>
-        <Typography variant="headline">{address.nickname}</Typography>
-        <Typography variant="subheading">{address.address}</Typography>
-      </Grid>
-    );
-
     return (
       <Paper className={classes.root}>
-        {address.nickname ? nicknametitle : title}
+        <Grid container justify="space-between" className={classes.row}>
+          <Grid item>
+            <Typography variant="headline">{address.address}</Typography>
+          </Grid>
+          <Grid item>
+            <IconButton onClick={this.removeAddress}>
+              <DeleteIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
         <Grid container justify="space-between" className={classes.row}>
           <Grid item>
             <Typography>Balance: {address.balance}</Typography>
@@ -61,4 +73,6 @@ class AddressTitle extends Component {
   }
 }
 
-export default withStyles(styles)(AddressTitle);
+const mapStateToProps = ({ auth }) => ({ auth: auth.toJS() });
+
+export default connect(mapStateToProps)(withRouter(withStyles(styles)(AddressTitle)));
