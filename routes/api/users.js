@@ -10,7 +10,7 @@ const Address = require('../../models/address');
 const authenticate = require('../../middleware/authenticate');
 const addrToResObj = require('../../utils/addrToResObj');
 
-const { BLOCKCYPHER_TOKEN, CALLBACK_URL } = process.env;
+const { BLOCKCYPHER_TOKEN, APP_URL } = process.env;
 
 router.route('/').get((req, res) => {
   User
@@ -86,7 +86,7 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
           .post(`https://api.blockcypher.com/v1/btc/test3/hooks?token=${BLOCKCYPHER_TOKEN}`, {
             event: 'tx-confirmation',
             address: key,
-            url: `${CALLBACK_URL}/api/callbacks/transaction/${key}`
+            url: `${APP_URL}/api/callbacks/transaction/${key}`
           })
           .then(({ data }) => Address
             .forge({
