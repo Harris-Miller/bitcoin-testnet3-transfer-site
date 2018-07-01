@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "db:migrate": "knex migrate:latest",
     "lint": "eslint db routes test *.js",
     "start": "node ./bin/www",
     "start:dev": "nodemon --watch app.js --watch middleware --watch models --watch routes --exec node -- ./bin/www",
