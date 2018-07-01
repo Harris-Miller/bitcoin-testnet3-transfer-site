@@ -5,6 +5,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import Grid from '@material-ui/core/Grid';
 import QrReader from 'react-qr-reader';
@@ -89,9 +90,9 @@ class AddAddressDialog extends Component {
                 Add Address
               </Grid>
               <Grid item>
-                <Button color="primary" onClick={() => this.setState({ showQrReader: !this.state.showQrReader })}>
+                <IconButton onClick={() => this.setState({ showQrReader: !this.state.showQrReader })}>
                   <PhotoCameraIcon />
-                </Button>
+                </IconButton>
               </Grid>
             </Grid>
           </DialogTitle>

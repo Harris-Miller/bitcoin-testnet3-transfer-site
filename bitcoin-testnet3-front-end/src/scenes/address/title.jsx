@@ -7,8 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { removeAddress, getAddresses } from '../../actions/address';
+import QRCodeDialog from '../../components/qr-code-dialog';
 
 const styles = theme => ({
   root: {
@@ -24,6 +26,10 @@ const styles = theme => ({
 class AddressTitle extends Component {
   static propTypes = {
     address: PropTypes.object.isRequired
+  };
+
+  state = {
+    qrDialogOpen: false
   };
 
   removeAddress = () => {
@@ -44,9 +50,14 @@ class AddressTitle extends Component {
       <Paper className={classes.root}>
         <Grid container justify="space-between" className={classes.row}>
           <Grid item>
-            <Typography variant="headline">{address.address}</Typography>
+            <Typography variant="headline">
+              {address.address}
+            </Typography>
           </Grid>
           <Grid item>
+            <IconButton onClick={() => this.setState({ qrDialogOpen: true })}>
+              <PhotoCameraIcon />
+            </IconButton>
             <IconButton onClick={this.removeAddress}>
               <DeleteIcon />
             </IconButton>
@@ -68,6 +79,7 @@ class AddressTitle extends Component {
             <Typography>Transactions: {Object.keys(address.txs).length}</Typography>
           </Grid>
         </Grid>
+        <QRCodeDialog open={this.state.qrDialogOpen} address={address.address} onClose={() => this.setState({ qrDialogOpen: false })} />
       </Paper>
     );
   }
