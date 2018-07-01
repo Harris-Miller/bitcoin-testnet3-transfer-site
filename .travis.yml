@@ -17,3 +17,4 @@ deploy:
   app: bitcoin-testnet3-transfer-site
   run:
     - yarn db:migrate
+    - restart
