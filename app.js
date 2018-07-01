@@ -24,9 +24,6 @@ app.use((req, res, next) => {
 app.set('json spaces', 2);
 
 app.io = io();
-app.io.sockets.on('connection', () => {
-  console.log('socket.io connected');
-});
 app.use((req, res, next) => {
   req.sockets = app.io.sockets;
   next();
@@ -44,7 +41,7 @@ app.use((err, req, res, next) => {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   if (req.app.get('env') === 'development') {
-    console.log(err);
+    console.log(err); // eslint-disable-line no-console
   }
 
   // render the error page

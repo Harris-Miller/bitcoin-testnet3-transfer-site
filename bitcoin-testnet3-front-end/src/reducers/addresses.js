@@ -1,8 +1,12 @@
 import immutable from 'immutable';
-import { SET_ADDRESSES, CLEAR_ADDRESSES, SET_TRANSACTION } from '../actions/address';
+import { SET_ADDRESSES, CLEAR_ADDRESSES, SET_TRANSACTION, ADD_ADDRESSES } from '../actions/address';
 
 export default (state = new immutable.Map(), action = {}) => {
   switch (action.type) {
+    case ADD_ADDRESSES:
+      return Object.keys(action.data).reduce((map, key) => {
+        return map.set(key, new immutable.Map(action.data[key]));
+      }, state);
     case SET_ADDRESSES:
       return immutable.fromJS(action.data);
     case CLEAR_ADDRESSES:

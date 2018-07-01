@@ -8,6 +8,9 @@ const router = new express.Router();
 const User = require('../../models/user');
 const Address = require('../../models/address');
 const authenticate = require('../../middleware/authenticate');
+const addrToResObj = require('../../utils/addrToResObj');
+
+const BLOCKCYPHER_TOKEN = process.env.BLOCKCYPHER_TOKEN;
 
 router.route('/').get((req, res) => {
   User
@@ -51,56 +54,78 @@ router.route('/:id/addresses').get((req, res, next) => {
       where: { user_id: req.params.id }
     })
     .fetchAll()
+    .then(results => Promise.all(results.map(r => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${r.get('key')}/full`).then(({ data }) => data))))
     .then(results => {
-      // return results.map(r => r.get('key'));
-      return Promise.all(results.map(r => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${r.get('key')}/full`).then(({ data }) => ({ nickname: r.nickname, ...data }))));
-    }).then(results => {
       // instead of just having an array of addresses, and those having an array of transactions
       // let's convert those arrays into key'd objects, where the address/hash
       // act as the keys, this will be much easier to deal with on the client side
-      res.json(results.reduce((addrsObj, addr) => {
-        addr.txs = addr.txs.reduce((txsObj, txs) => {
-          txsObj[txs.hash] = txs;
-          return txsObj;
-        }, {});
-        addrsObj[addr.address] = addr;
-        return addrsObj;
-      }, {}));
+      res.json(addrToResObj(results));
     });
 });
 
 router.route('/:id/addresses').post((req, res, next) => {
+  // if (req.userId !== req.params.id) {
+  //   return next(new createError.Unauthorized());
+  // }
 
+  const { id: userId } = req.params;
+  const { key } = req.body;
+
+  Address
+    .query(qb => qb.where({ key }))
+    .fetch()
+    .then(address => {
+      if (address) {
+        // address already added, fetch expanded data, process and return
+        axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${address.get('key')}/full`)
+          .then(({ data }) => data)
+          .then(result => res.status(201).json(addrToResObj([result])));
+      } else {
+        // first, add event to blockcypher
+        axios.post(`https://api.blockcypher.com/v1/btc/test3/hooks?token=${BLOCKCYPHER_TOKEN}`, {
+          event: 'tx-confirmation',
+          address: key,
+          url: `http://317f1ae6.ngrok.io/api/callbacks/transaction/${key}`
+        })
+        .then(({ data }) => 
+          // add it to db, then fetch expanded data, process and return
+          Address
+            .forge({
+              key,
+              userId,
+              eventId: data.id
+            }, {
+              hasTimestamps: true
+            })
+            .save()
+        )
+        .then(newAddress => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${newAddress.get('key')}/full`))
+        .then(({ data }) => data)
+        .then(result => res.status(201).json(addrToResObj([result])));
+      }
+    });
 });
 
-// router.route('/:id').get((req, res, next) => {
-//   db.user.read({ id: req.params.id })
-//     .then(user => {
-//       if (!user) {
-//         return next(createError.NotFound());
-//       }
+router.route('/:id/addresses/:address').delete((req, res, next) => {
+  // if (req.userId !== req.params.id) {
+  //   return next(new createError.Unauthorized());
+  // }
 
-//       return res.json(user);
-//     })
-//     .catch(err => next(createError.InternalServerError(err)));
-// });
+  const { address: key } = req.params;
 
-// router.route('/:id').patch((req, res, next) => {
-//   db.user.update(req.params.id, req.body)
-//     .then(() => {
-//       res.status(200);
-//       res.end();
-//     })
-//     .catch(err => next(createError.InternalServerError(err)));
-// });
+  Address
+    .query(qb => qb.where({ key }))
+    .fetch()
+    .then(address => {
+      if (!address) {
+        return next(new createError.BadRequest('Address does not exist for User'));
+      }
 
-// router.route('/:id').delete((req, res, next) => {
-//   db.user.delete(req.params.id)
-//     .then(() => {
-//       res.status(204);
-//       res.end();
-//     })
-//     .catch(err => next(createError.InternalServerError(err)));
-// });
+      return axios.delete(`https://api.blockcypher.com/v1/btc/test3/hooks/${address.get('event_id')}?token=${BLOCKCYPHER_TOKEN}`)
+        .then(() => address)
+        .then(address => address.destroy())
+        .then(() => res.status(204).end());
+    });
+})
 
 module.exports = router;

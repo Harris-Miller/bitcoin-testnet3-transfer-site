@@ -10,13 +10,13 @@ import Grid from '@material-ui/core/Grid';
 import QrReader from 'react-qr-reader';
 import TextInput from './text-input';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import { addAddress, getAddresses } from '../actions/address';
 
 class AddAddressDialog extends Component {
   state = {
     open: false,
     showQrReader: false,
     address: '',
-    nickname: '',
     addressError: false,
     addressHelperText: ''
   };
@@ -32,7 +32,7 @@ class AddAddressDialog extends Component {
   };
 
   handleError = err => {
-
+    // intentially blank
   };
 
   handleScan = result => {
@@ -46,7 +46,9 @@ class AddAddressDialog extends Component {
   };
 
   addAddress = () => {
-    const { address, nickname } = this.state;
+    const { address } = this.state;
+    const { auth, dispatch } = this.props;
+    const userId = auth.user.id;
 
     // reset all errors
     this.setState({
@@ -62,7 +64,11 @@ class AddAddressDialog extends Component {
       return;
     }
 
-    // TODO
+    addAddress(userId, address)
+      .then(address => {
+        dispatch(getAddresses(userId));
+        this.handleClose()
+      })
   };
 
   render() {
@@ -101,13 +107,6 @@ class AddAddressDialog extends Component {
                   helperText={this.state.addressHelperText}
                 />
               </Grid>
-              <Grid item>
-                <TextInput
-                  id="nickname"
-                  label="Nickname"
-                  value={this.state.nickname}
-                />
-              </Grid>
               {this.state.showQrReader &&
                 <Grid item>
                   <QrReader
@@ -134,4 +133,6 @@ class AddAddressDialog extends Component {
   }
 }
 
-export default connect()(withMobileDialog()(AddAddressDialog));
+const mapStateToProps = ({ auth }) => ({ auth: auth.toJS() });
+
+export default connect(mapStateToProps)(withMobileDialog()(AddAddressDialog));
