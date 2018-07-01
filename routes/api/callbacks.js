@@ -8,4 +8,12 @@ router.get('/test', (req, res) => {
   res.json({ message: 'socket.io test complete'});
 });
 
+router.post('/transaction/:address', (req, res) => {
+  const { address } = req.params;
+
+  req.sockets.emit('transaction', { address, txs: req.body });
+  res.status(204);
+  res.end();
+});
+
 module.exports = router;

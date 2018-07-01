@@ -53,7 +53,7 @@ class AddressTitle extends Component {
         </Grid>
         <Grid container>
           <Grid item>
-            <Typography>Transactions: {address.final_n_tx}</Typography>
+            <Typography>Transactions: {Object.keys(address.txs).length}</Typography>
           </Grid>
         </Grid>
       </Paper>

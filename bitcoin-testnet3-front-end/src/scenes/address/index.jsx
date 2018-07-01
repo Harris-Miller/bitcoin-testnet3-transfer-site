@@ -19,6 +19,19 @@ const styles = theme => ({
   }
 });
 
+function sortTransactionsKeysByRecieved(txs) {
+  return Object.keys(txs)
+    .sort((a, b) => {
+       const aDate = new Date(txs[a].received);
+       const bDate = new Date(txs[b].received);
+
+       if (aDate > bDate) { return -1; }
+       if (bDate> aDate) { return 1; }
+
+       return 0
+    });
+}
+
 class Address extends Component {
   // on direct load of route, the page loads before the async call to get user data,
   // so for a moment, there is no this.props.addresses
@@ -43,6 +56,9 @@ class Address extends Component {
             <Grid item>
               <Typography>Confirmations: {txs.confirmations}</Typography>
             </Grid>
+            <Grid item>
+              <Typography>Received: {txs.received}</Typography>
+            </Grid>
           </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
@@ -52,7 +68,7 @@ class Address extends Component {
       <div>
         <AddressTitle address={address} />
         <div className={classes.root}>
-          {address.txs.map(t =>transactionPanel(t, address.address))}
+          {sortTransactionsKeysByRecieved(address.txs).map(key => transactionPanel(address.txs[key], address.address))}
         </div>
       </div>
     );

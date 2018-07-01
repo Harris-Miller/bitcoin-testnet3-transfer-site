@@ -55,9 +55,16 @@ router.route('/:id/addresses').get((req, res, next) => {
       // return results.map(r => r.get('key'));
       return Promise.all(results.map(r => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${r.get('key')}/full`).then(({ data }) => ({ nickname: r.nickname, ...data }))));
     }).then(results => {
-      res.json(results.reduce((obj, addr) => {
-        obj[addr.address] = addr;
-        return obj;
+      // instead of just having an array of addresses, and those having an array of transactions
+      // let's convert those arrays into key'd objects, where the address/hash
+      // act as the keys, this will be much easier to deal with on the client side
+      res.json(results.reduce((addrsObj, addr) => {
+        addr.txs = addr.txs.reduce((txsObj, txs) => {
+          txsObj[txs.hash] = txs;
+          return txsObj;
+        }, {});
+        addrsObj[addr.address] = addr;
+        return addrsObj;
       }, {}));
     });
 });

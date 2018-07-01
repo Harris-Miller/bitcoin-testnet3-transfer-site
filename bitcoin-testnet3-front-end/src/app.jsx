@@ -7,6 +7,7 @@ import {
   Switch
 } from 'react-router-dom';
 import store from './store';
+import './socket-io';
 import Wrapper from './scenes/wrapper';
 import Intro from './scenes/intro';
 import Address from './scenes/address';
