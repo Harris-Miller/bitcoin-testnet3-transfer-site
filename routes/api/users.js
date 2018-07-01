@@ -11,6 +11,7 @@ const authenticate = require('../../middleware/authenticate');
 const addrToResObj = require('../../utils/addrToResObj');
 
 const BLOCKCYPHER_TOKEN = process.env.BLOCKCYPHER_TOKEN;
+const CALLBACK_URL = process.env.CALLBACK_URL;
 
 router.route('/').get((req, res) => {
   User
@@ -44,10 +45,10 @@ router.route('/').post((req, res, next) => {
     }).catch(err => next(new createError.InternalServerError(err)));
 });
 
-router.route('/:id/addresses').get((req, res, next) => {
-  // if (req.userId !== req.params.id) {
-  //   return next(new createError.Unauthorized());
-  // }
+router.route('/:id/addresses').get(authenticate, (req, res, next) => {
+  if (req.userId !== req.params.id) {
+    return next(new createError.Unauthorized());
+  }
 
   Address
     .query({
@@ -63,10 +64,10 @@ router.route('/:id/addresses').get((req, res, next) => {
     });
 });
 
-router.route('/:id/addresses').post((req, res, next) => {
-  // if (req.userId !== req.params.id) {
-  //   return next(new createError.Unauthorized());
-  // }
+router.route('/:id/addresses').post(authenticate, (req, res, next) => {
+  if (req.userId !== req.params.id) {
+    return next(new createError.Unauthorized());
+  }
 
   const { id: userId } = req.params;
   const { key } = req.body;
@@ -85,7 +86,7 @@ router.route('/:id/addresses').post((req, res, next) => {
         axios.post(`https://api.blockcypher.com/v1/btc/test3/hooks?token=${BLOCKCYPHER_TOKEN}`, {
           event: 'tx-confirmation',
           address: key,
-          url: `http://317f1ae6.ngrok.io/api/callbacks/transaction/${key}`
+          url: `${CALLBACK_URL}/api/callbacks/transaction/${key}`
         })
         .then(({ data }) => 
           // add it to db, then fetch expanded data, process and return
@@ -106,10 +107,10 @@ router.route('/:id/addresses').post((req, res, next) => {
     });
 });
 
-router.route('/:id/addresses/:address').delete((req, res, next) => {
-  // if (req.userId !== req.params.id) {
-  //   return next(new createError.Unauthorized());
-  // }
+router.route('/:id/addresses/:address').delete(authenticate, (req, res, next) => {
+  if (req.userId !== req.params.id) {
+    return next(new createError.Unauthorized());
+  }
 
   const { address: key } = req.params;
 
@@ -126,6 +127,6 @@ router.route('/:id/addresses/:address').delete((req, res, next) => {
         .then(address => address.destroy())
         .then(() => res.status(204).end());
     });
-})
+});
 
 module.exports = router;

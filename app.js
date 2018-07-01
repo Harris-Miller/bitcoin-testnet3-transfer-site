@@ -1,6 +1,7 @@
 'use strict';
 
-// const createError = require('http-errors');
+require('dotenv').config({ path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development'});
+
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
