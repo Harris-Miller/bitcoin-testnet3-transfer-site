@@ -9,9 +9,10 @@ script:
 - yarn
 - yarn test
 - yarn build
+- cd ..
 deploy:
   provider: heroku
   api_key:
     secure: Kiy6GOXqUxOjaqOnqhT6VSJlCX18bi/qmE9rz+AasJEmea3/vdPhuQ+Oe+LMFl15FEZLEhCPQamcx7mlCWCDAmUu/cUucuXHFpUPerx0ZY++tc67RvpfgARoq7erKGw2x2RuaDvw68e8hRTNQgtobjrw80EOO95lH66iLivu/E6KEHeKwdvsz9hb72MCS53zUKs6sB5kBPkfbYI9pqUq5gtthFLrP7w6vX6uAuS0Iw5uyvLn1czmkwWY/vb8jLJooIxIhOPTDoAaW22zYoFBposMy8WoK6bZEV/k+0VemGMGg9T9AYz5D7HFqci9An3ir0wC5drYej0cJmtAS/hJFFHA8CbYFSpgUCxCCyzGJsZN+AysZm2Ur03/mLf8YJ5wGhwp1cz+3j9g0S8mb6uEPrW/nex2NAx70O9wQQsL+nGahReMpzaiSqnwLtA5pW14hzGB85ZkoJStDqTbhNHm5v5Vf5iQBoypXURYD2WmyirS4j8l0SMjzHaY72CIsCLwwTeU2fNPf9/DHfE3o5+xQaSxeqtTH9caA+psIUZO45YuUbC/AgDUMa2UbvF0Qzg7MQOE8Q2BFutlEqXe8uEjvKfX4ezfBndwASrE2imYjkwZrmgSFS5Cxkfk+FMMhZtKabhJg/O8LUYLZAQFXgA3ibantVOStcsGMgo3Y6nMQVM=
   app: bitcoin-testnet3-transfer-site
-  run: " yarn start"
+  run: "yarn start"
