@@ -81,13 +81,15 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
           .then(({ data }) => data)
           .then(result => res.status(201).json(addrToResObj([result])));
       } else {
-        // first, add event to blockcypher
-        axios
+        // first, add event to blockcypher, but not in development
+        (process.env.NODE_ENV = 'development'
+          ? Promise.resolve({ data: { id: null } })
+          : axios
           .post(`https://api.blockcypher.com/v1/btc/test3/hooks?token=${BLOCKCYPHER_TOKEN}`, {
             event: 'tx-confirmation',
             address: key,
             url: `${APP_URL}/api/callbacks/transaction/${key}`
-          })
+          }))
           .then(({ data }) => Address
             .forge({
               key,
@@ -120,8 +122,13 @@ router.route('/:id/addresses/:address').delete(authenticate, (req, res, next) =>
         return next(new createError.BadRequest('Address does not exist for User'));
       }
 
-      return axios
-        .delete(`https://api.blockcypher.com/v1/btc/test3/hooks/${address.get('event_id')}?token=${BLOCKCYPHER_TOKEN}`)
+      console.log(address.get('event_id'));
+
+      // remove event if event_id exists
+      return (address.get('event_id')
+        ? axios.delete(`https://api.blockcypher.com/v1/btc/test3/hooks/${address.get('event_id')}?token=${BLOCKCYPHER_TOKEN}`)
+        : Promise.resolve()
+        )
         .then(() => address.destroy())
         .then(() => res.status(204).end());
     });

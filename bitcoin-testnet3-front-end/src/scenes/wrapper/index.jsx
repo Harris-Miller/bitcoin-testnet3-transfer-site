@@ -97,6 +97,10 @@ class ResponsiveDrawer extends Component {
     history.push('/');
   };
 
+  toHome = () => {
+    this.props.history.push('/');
+  };
+
   render() {
     const { classes, theme, auth } = this.props;
 
@@ -147,7 +151,7 @@ class ResponsiveDrawer extends Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap className={classes.flex}>
+            <Typography variant="title" color="inherit" noWrap className={classes.flex} onClick={this.toHome}>
               Testnet3
             </Typography>
             <div>
@@ -194,7 +198,7 @@ class ResponsiveDrawer extends Component {
           <div className={classes.scroll}>
             {this.props.children}
           </div>
-          <Fab onClick={() => this.setState({ addressDialogOpen: true })} />
+          {auth.isAuthenticated && <Fab onClick={() => this.setState({ addressDialogOpen: true })} />}
           <SignupDialog open={this.state.signupDialogOpen} onClose={() => this.setState({ signupDialogOpen: false })} />
           <LoginDialog open={this.state.loginDialogOpen} onClose={() => this.setState({ loginDialogOpen: false })} />
           <AddAddressDialog open={this.state.addressDialogOpen} onClose={() => this.setState({ addressDialogOpen: false })} />
