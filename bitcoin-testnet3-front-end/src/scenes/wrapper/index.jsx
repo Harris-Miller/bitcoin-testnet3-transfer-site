@@ -88,6 +88,10 @@ class ResponsiveDrawer extends Component {
     addressDialogOpen: false
   };
 
+  closeDrawer = () => {
+    this.setState({ mobileOpen: false });
+  };
+
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
@@ -96,6 +100,17 @@ class ResponsiveDrawer extends Component {
     const { dispatch, history } = this.props;
     dispatch(removeCurrentUser());
     history.push('/');
+    this.closeDrawer();
+  };
+
+  handleLoginClick = () => {
+    this.closeDrawer();
+    this.setState({ loginDialogOpen: true });
+  };
+
+  handleSignupClick = () => {
+    this.closeDrawer();
+    this.setState({ signupDialogOpen: true });
   };
 
   toHome = () => {
@@ -109,14 +124,14 @@ class ResponsiveDrawer extends Component {
       <div>
         <div className={classes.toolbar}>
           <List>
-            <ListItem button onClick={() => this.setState({ signupDialogOpen: true })}>
+            <ListItem button onClick={this.handleSignupClick}>
               <ListItemText primary="Signup" />
             </ListItem>
           </List>
         </div>
         <Divider />
         <List>
-          <ListItem button onClick={() => this.setState({ loginDialogOpen: true })}>
+          <ListItem button onClick={this.handleLoginClick}>
             <ListItemText primary="Login" />
           </ListItem>
         </List>
@@ -139,7 +154,7 @@ class ResponsiveDrawer extends Component {
           </ListItem>
         </List>
         <Divider />
-        <Addresses />
+        <Addresses closeDrawer={this.closeDrawer} />
       </div>
     );
 
