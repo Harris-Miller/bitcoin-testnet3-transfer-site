@@ -10,3 +10,12 @@ script:
 - yarn test
 - yarn build
 - cd ..
+deploy:
+  provider: heroku
+  api_key:
+    secure: YNEw0ffJJlL/N1bzI/ucCjI83kLRzF3oYMwzgkyHlTwYYTF+JqSyZMKPSgVBkg6HEYtXDft/5UScUQO3Gf2zQbhyYRWDZiDsG422uNi0KXYY5MUFn4r/NCoSlZBo7HhOg7vS17J2B8oebeyrXjz+H29pUVYUWi1Q3SKRa/FAWInwSmu3X+MMSDKYcKABP5JF8dYkA9U4RUMNeF0Y/Zs5Y5N1KFnV7RIbnObGUB77LZfq66T7ij9SHLAXUsLw2WUReEHyDCrGNCtRqMy3/oJPTxkmvIHxweUbWE+j2KqNyQurpp6yi65+sa75fyM36t+DvPqT8XTSdMMK2+ydqCznkClcErYPrzstKbgybyN4NdCrmSmfT0hr+4qmmcTshdwP4GqNq+rxmdE9c6suu4bA59hmIE74T9/qBgynJNB2E/L0Zjq6I5y58SkrCf39NTpu/GK6kA/pGC2kVQeaM8AwE4rs7qkmi0JGdAY4YAvMfHS1aTBr6maUP7QjTypGu52wxLMUoGHltasV9Wkmhr0iGD250E9rLugOe+X9qftCXTklZ/i44AXswsrrA02JEebE0/MXWY2q2UedcmF9i9Orp2PQTK5BemCbS6lcdQsAiea9LcPKF9PVsZZ61CmRbcAA56X7IqWmlqBuf0smjlMkt7bOxv54vV4zaNoMSzetIjU=
+  on: master
+  app: bitcoin-testnet3-transfer-site
+  run:
+    - yarn db:migrate
+    - restart
