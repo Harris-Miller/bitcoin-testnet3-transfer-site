@@ -7,8 +7,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
-import TextInput from './text-input';
-import { singupUser, login, setCurrentUser } from '../actions/auth';
+import TextInput from '../../components/text-input';
+import { singupUser, login, setCurrentUser } from '../../actions/auth';
 
 class SignupDialog extends Component {
   state = {

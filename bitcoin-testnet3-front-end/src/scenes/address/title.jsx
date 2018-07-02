@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { removeAddress, getAddresses } from '../../actions/address';
-import QRCodeDialog from '../../components/qr-code-dialog';
+import QRCodeDialog from './qr-code-dialog';
 
 const styles = theme => ({
   root: {

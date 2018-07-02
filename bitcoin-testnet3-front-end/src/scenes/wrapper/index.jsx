@@ -19,9 +19,9 @@ import Octicon from 'react-octicon';
 import Addresses from './addresses';
 import Exchange from './exchange';
 import Fab from '../../components/fab';
-import SignupDialog from '../../components/signup-dialog';
-import LoginDialog from '../../components/login-dialog';
-import AddAddressDialog from '../../components/add-address-dialog';
+import SignupDialog from './signup-dialog';
+import LoginDialog from './login-dialog';
+import AddAddressDialog from './add-address-dialog';
 import { removeCurrentUser } from '../../actions/auth';
 
 const drawerWidth = 240;

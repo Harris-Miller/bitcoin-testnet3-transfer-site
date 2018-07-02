@@ -8,10 +8,10 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import Grid from '@material-ui/core/Grid';
-import QrReader from 'react-qr-reader';
-import TextInput from './text-input';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
-import { addAddress, getAddresses } from '../actions/address';
+import QrReader from 'react-qr-reader';
+import TextInput from '../../components/text-input';
+import { addAddress, getAddresses } from '../../actions/address';
 
 class AddAddressDialog extends Component {
   state = {
