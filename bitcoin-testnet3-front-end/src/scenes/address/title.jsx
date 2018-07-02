@@ -11,6 +11,7 @@ import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { removeAddress, getAddresses } from '../../actions/address';
 import QRCodeDialog from './qr-code-dialog';
+import RemoveConfirmationDialog from './remove-confirmation-dialog';
 
 const styles = theme => ({
   root: {
@@ -29,7 +30,8 @@ class AddressTitle extends Component {
   };
 
   state = {
-    qrDialogOpen: false
+    qrDialogOpen: false,
+    removeDialogOpen: false
   };
 
   removeAddress = () => {
@@ -58,7 +60,7 @@ class AddressTitle extends Component {
             <IconButton onClick={() => this.setState({ qrDialogOpen: true })}>
               <PhotoCameraIcon />
             </IconButton>
-            <IconButton onClick={this.removeAddress}>
+            <IconButton onClick={() => this.setState({ removeDialogOpen: true })}>
               <DeleteIcon />
             </IconButton>
           </Grid>
@@ -80,6 +82,11 @@ class AddressTitle extends Component {
           </Grid>
         </Grid>
         <QRCodeDialog open={this.state.qrDialogOpen} address={address.address} onClose={() => this.setState({ qrDialogOpen: false })} />
+        <RemoveConfirmationDialog
+          open={this.state.removeDialogOpen}
+          onClose={() => this.setState({ removeDialogOpen: false })}
+          onConfirm={this.removeAddress}
+        />
       </Paper>
     );
   }
