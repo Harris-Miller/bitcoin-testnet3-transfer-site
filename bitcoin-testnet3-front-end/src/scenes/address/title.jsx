@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { removeAddress, getAddresses } from '../../actions/address';
@@ -51,19 +52,30 @@ class AddressTitle extends Component {
     return (
       <Paper className={classes.root}>
         <Grid container justify="space-between" className={classes.row}>
-          <Grid item>
+          <Grid item xs={8}>
             <Typography variant="headline">
-              {address.address}
+              Address: <Hidden smDown>{address.address}</Hidden>
             </Typography>
           </Grid>
-          <Grid item>
-            <IconButton onClick={() => this.setState({ qrDialogOpen: true })}>
-              <PhotoCameraIcon />
-            </IconButton>
-            <IconButton onClick={() => this.setState({ removeDialogOpen: true })}>
-              <DeleteIcon />
-            </IconButton>
+          <Grid item xs={4}>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <IconButton onClick={() => this.setState({ qrDialogOpen: true })}>
+                  <PhotoCameraIcon />
+                </IconButton>
+                <IconButton onClick={() => this.setState({ removeDialogOpen: true })}>
+                  <DeleteIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
           </Grid>
+          <Hidden mdUp>
+            <Grid xs={12}>
+              <Typography>
+                {address.address}
+              </Typography>
+            </Grid>
+          </Hidden>
         </Grid>
         <Grid container justify="space-between" className={classes.row}>
           <Grid item>
