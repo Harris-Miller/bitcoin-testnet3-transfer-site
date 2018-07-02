@@ -3,6 +3,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import reducers from './reducers';
 import { getAddresses, clearAddresses } from './actions/address';
+import { fetchBpiCurrentUsd, setBpi } from './actions/bpi';
 
 // found if we don't do this, it breaks when redux extension not installed
 // important for mobile
@@ -29,5 +30,14 @@ store.subscribe(() => {
     }
   }
 });
+
+function fetchAndSetBpiForUsd() {
+  fetchBpiCurrentUsd().then(data => store.dispatch(setBpi(data)));
+}
+
+// run immediately
+fetchAndSetBpiForUsd();
+// and update every 2 minutes
+setInterval(fetchAndSetBpiForUsd, (1000 * 60 * 2));
 
 export default store;

@@ -17,6 +17,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import Octicon from 'react-octicon';
 import Addresses from './addresses';
+import Exchange from './exchange';
 import Fab from '../../components/fab';
 import SignupDialog from '../../components/signup-dialog';
 import LoginDialog from '../../components/login-dialog';
@@ -176,6 +177,7 @@ class ResponsiveDrawer extends Component {
               Testnet3
             </Typography>
             <div>
+              <Exchange />
               <IconButton color="inherit" onClick={this.toHome}>
                 <HomeIcon />
               </IconButton>
