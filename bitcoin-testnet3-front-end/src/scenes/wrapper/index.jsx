@@ -143,7 +143,7 @@ class ResponsiveDrawer extends Component {
         <div className={classes.toolbar}>
           <List>
             <ListItem>
-              <ListItemText primary={auth.user && auth.user.username} />
+              <ListItemText primary={auth.user.username} />
             </ListItem>
           </List>
         </div>

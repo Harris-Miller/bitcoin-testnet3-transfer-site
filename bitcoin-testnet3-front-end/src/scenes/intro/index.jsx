@@ -1,22 +1,36 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
-// import Paper from '@material-ui/core/Paper';
+import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-// import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 class Intro extends Component {
   render() {
+    const { auth } = this.props;
+
+    const generalGreeting = (
+      <Typography>Signup or Login to get started!</Typography>
+    );
+
+    const userGreeting = (
+      <Typography>
+        Welcome {auth.user.username}.
+        Use the add button on the bottom right of your screen to add an address to see current and future transactions.
+      </Typography>
+    );
+    
     return (
       <Grid container>
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{ 'margin-bottom': '16px' }}>
           <Typography variant="headline">Welcome to the bitcoin-testnet3-transaction-site</Typography>
         </Grid>
         <Grid item>
-          <Typography>To get started, please login or sign up!</Typography>
+          {auth.isAuthenticated ? userGreeting : generalGreeting}
         </Grid>
       </Grid>
     );
   }
 }
 
-export default Intro;
+const mapStateToProps = ({ auth }) => ({ auth: auth.toJS() });
+
+export default connect(mapStateToProps)(Intro);
