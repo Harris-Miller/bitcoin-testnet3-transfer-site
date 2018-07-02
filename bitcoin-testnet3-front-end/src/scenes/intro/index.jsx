@@ -13,14 +13,14 @@ class Intro extends Component {
 
     const userGreeting = (
       <Typography>
-        Welcome {auth.user.username}.
+        Welcome {auth.user && auth.user.username}.
         Use the add button on the bottom right of your screen to add an address to see current and future transactions.
       </Typography>
     );
     
     return (
       <Grid container>
-        <Grid item xs={12} style={{ 'margin-bottom': '16px' }}>
+        <Grid item xs={12} style={{ marginBottom: '16px' }}>
           <Typography variant="headline">Welcome to the bitcoin-testnet3-transaction-site</Typography>
         </Grid>
         <Grid item>
