@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
 import Octicon from 'react-octicon';
 import Addresses from './addresses';
 import Fab from '../../components/fab';
@@ -105,25 +106,24 @@ class ResponsiveDrawer extends Component {
     const { classes, theme, auth } = this.props;
 
     const loggedOut = (
-      <List>
-        <ListItem button onClick={() => this.setState({ signupDialogOpen: true })}>
-          <ListItemText primary="Signup" />
-        </ListItem>
-        <ListItem button onClick={() => this.setState({ loginDialogOpen: true })}>
-          <ListItemText primary="Login" />
-        </ListItem>
-      </List>
+      <div>
+        <div className={classes.toolbar}>
+          <List>
+            <ListItem button onClick={() => this.setState({ signupDialogOpen: true })}>
+              <ListItemText primary="Signup" />
+            </ListItem>
+          </List>
+        </div>
+        <Divider />
+        <List>
+          <ListItem button onClick={() => this.setState({ loginDialogOpen: true })}>
+            <ListItemText primary="Login" />
+          </ListItem>
+        </List>
+      </div>
     );
 
     const loggedIn = (
-      <List>
-        <ListItem button onClick={() => this.logout()}>
-          <ListItemText primary="Logout" />
-        </ListItem>
-      </List>
-    );
-
-    const drawer = (
       <div>
         <div className={classes.toolbar}>
           <List>
@@ -133,11 +133,17 @@ class ResponsiveDrawer extends Component {
           </List>
         </div>
         <Divider />
-          {auth.isAuthenticated ? loggedIn : loggedOut}
+        <List>
+          <ListItem button onClick={() => this.logout()}>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </List>
         <Divider />
         <Addresses />
       </div>
     );
+
+    const drawer = auth.isAuthenticated ? loggedIn : loggedOut;
 
     return (
       <div className={classes.root}>
@@ -151,18 +157,23 @@ class ResponsiveDrawer extends Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap className={classes.flex} onClick={this.toHome}>
+            <Typography variant="title" color="inherit" noWrap className={classes.flex}>
               Testnet3
             </Typography>
             <div>
-              <a
-                href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.anchorInheritColor}
-              >
-                <Octicon name="mark-github" mega />
-              </a>
+              <IconButton color="inherit" onClick={this.toHome}>
+                <HomeIcon />
+              </IconButton>
+              <IconButton color="inherit" >
+                <a
+                  href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={classes.anchorInheritColor}
+                >
+                  <Octicon name="mark-github" mega />
+                </a>
+              </IconButton>
             </div>
           </Toolbar>
         </AppBar>
