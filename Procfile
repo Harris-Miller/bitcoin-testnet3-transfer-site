@@ -1,2 +1,2 @@
-release: yarn db:migrate; cd bitcoin-testnet3-front-end; yarn install --production; yarn build; cd ..
+release: yarn db:migrate
 web: node ./bin/www
