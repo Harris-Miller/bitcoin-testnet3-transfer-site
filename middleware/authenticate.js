@@ -4,7 +4,7 @@ const User = require('../models/user');
 const config = require('../config');
 
 const authenticate = (req, res, next) => {
-  const authorizationHeader = req.header['authorization'];
+  const authorizationHeader = req.get('authorization');
 
   let token;
 

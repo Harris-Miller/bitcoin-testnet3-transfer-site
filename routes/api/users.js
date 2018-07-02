@@ -45,7 +45,7 @@ router.route('/').post((req, res, next) => {
 });
 
 router.route('/:id/addresses').get(authenticate, (req, res, next) => {
-  if (req.userId !== req.params.id) {
+  if (req.userId !== parseInt(req.params.id, 10)) {
     return next(new createError.Unauthorized());
   }
 
@@ -64,7 +64,7 @@ router.route('/:id/addresses').get(authenticate, (req, res, next) => {
 });
 
 router.route('/:id/addresses').post(authenticate, (req, res, next) => {
-  if (req.userId !== req.params.id) {
+  if (req.userId !== parseInt(req.params.id, 10)) {
     return next(new createError.Unauthorized());
   }
 
@@ -106,7 +106,7 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
 });
 
 router.route('/:id/addresses/:address').delete(authenticate, (req, res, next) => {
-  if (req.userId !== req.params.id) {
+  if (req.userId !== parseInt(req.params.id, 10)) {
     return next(new createError.Unauthorized());
   }
 
