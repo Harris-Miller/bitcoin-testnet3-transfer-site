@@ -79,8 +79,8 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
           .then(({ data }) => data)
           .then(result => res.status(201).json(addrToResObj([result])));
       } else {
-        // first, add event to blockcypher, but not if APP_API is localhost
-        (APP_API.includes('localhost')
+        // first, add event to blockcypher, but not if APP_URL is localhost
+        (APP_URL.includes('localhost')
           ? Promise.resolve({ data: { id: null } })
           : axios
             .post(`https://api.blockcypher.com/v1/btc/test3/hooks?token=${BLOCKCYPHER_TOKEN}`, {
@@ -113,7 +113,7 @@ router.route('/:id/addresses/:address').delete(authenticate, (req, res, next) =>
   const { address: key } = req.params;
 
   Address
-    .query({ where : { key } })
+    .query({ where: { key } })
     .fetch()
     .then(address => {
       if (!address) {
