@@ -55,9 +55,10 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
+    height: '100vh',
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
-    overflow: 'hidden'
+    overflow: 'scroll'
   },
   flex: {
     flex: 1
@@ -70,8 +71,8 @@ const styles = theme => ({
       color: 'inherit'
     }
   },
-  scroll: {
-    overflow: 'scroll'
+  outlet: {
+    marginBottom: '60px'
   }
 });
 
@@ -223,7 +224,7 @@ class ResponsiveDrawer extends Component {
         </Hidden>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <div className={classes.scroll}>
+          <div className={classes.outlet}>
             {this.props.children}
           </div>
           {auth.isAuthenticated && <Fab onClick={() => this.setState({ addressDialogOpen: true })} />}
