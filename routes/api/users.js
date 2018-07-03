@@ -12,13 +12,6 @@ const addrToResObj = require('../../utils/addrToResObj');
 
 const { BLOCKCYPHER_TOKEN, APP_URL } = process.env;
 
-router.route('/').get((req, res) => {
-  User
-    .query({ select: ['id', 'username', 'email'] })
-    .fetchAll()
-    .then(users => res.json(users));
-});
-
 router.route('/').post((req, res, next) => {
   const { email, password, username } = req.body;
 
@@ -69,9 +62,13 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
   const { id: userId } = req.params;
   const { key } = req.body;
 
+  if (!key) {
+    return next(new createError.BadRequest());
+  }
+
   Address
-    .query({ where: { key } })
-    .fetch()
+    .query({ where: { key, userId, } })
+    .fetch() 
     .then(address => {
       if (address) {
         // address already added, fetch expanded data, process and return
