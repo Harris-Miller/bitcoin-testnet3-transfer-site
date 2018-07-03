@@ -79,8 +79,8 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
           .then(({ data }) => data)
           .then(result => res.status(201).json(addrToResObj([result])));
       } else {
-        // first, add event to blockcypher, but not in development
-        (process.env.NODE_ENV === 'development'
+        // first, add event to blockcypher, but not if APP_API is localhost
+        (APP_API.includes('localhost')
           ? Promise.resolve({ data: { id: null } })
           : axios
             .post(`https://api.blockcypher.com/v1/btc/test3/hooks?token=${BLOCKCYPHER_TOKEN}`, {
