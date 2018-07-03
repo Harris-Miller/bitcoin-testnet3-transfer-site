@@ -7,7 +7,9 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import moment from 'moment';
 import AddressTitle from './title';
+import BalanceDisplay from './balance-display';
 
 const styles = theme => ({
   root: {
@@ -33,11 +35,6 @@ function sortTransactionsKeysByRecieved(txs) {
 }
 
 class Address extends Component {
-  // on direct load of route, the page loads before the async call to get user data,
-  // so for a moment, there is no this.props.addresses
-  // in that case, we need to just render an empty page for the split second before hand
-  // so we put the actual page in this variable and return a turnary to this method
-  // or an empty <div>
   withAddress(address) {
     const { classes } = this.props;
 
@@ -49,15 +46,15 @@ class Address extends Component {
           <Typography className={classes.heading}>{txs.hash}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Grid container justify="space-between">
+          <Grid container justify="space-between" alignItems="center">
             <Grid item>
-              <Typography>Value: {txsValue}</Typography>
+              <BalanceDisplay text="Value" value={txsValue} />
             </Grid>
             <Grid item>
               <Typography>Confirmations: {txs.confirmations}</Typography>
             </Grid>
             <Grid item>
-              <Typography>Received: {txs.received}</Typography>
+              <Typography>Received: {txs.received && moment(txs.received).format('M/D/Y h:mm:ss a')}</Typography>
             </Grid>
           </Grid>
         </ExpansionPanelDetails>
@@ -74,6 +71,10 @@ class Address extends Component {
     );
   }
 
+  // on direct load of route, the page loads before the async call to get user data,
+  // so for a moment, there is no this.props.addresses
+  // in that case, we need to just render an empty page for the split second before hand
+  // return a turnary to that empty <div> or the this.withAddress() method once address is populated
   render() {
     const { match, addresses } = this.props;
     const address = addresses[match.params.address];

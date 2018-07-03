@@ -13,6 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { removeAddress, getAddresses } from '../../actions/address';
 import QRCodeDialog from './qr-code-dialog';
 import RemoveConfirmationDialog from './remove-confirmation-dialog';
+import BalanceDisplay from './balance-display';
 
 const styles = theme => ({
   root: {
@@ -70,22 +71,20 @@ class AddressTitle extends Component {
             </Grid>
           </Grid>
           <Hidden mdUp>
-            <Grid xs={12}>
-              <Typography>
-                {address.address}
-              </Typography>
+            <Grid item xs={12}>
+              <Typography varient="subheader">{address.address}</Typography>
             </Grid>
           </Hidden>
         </Grid>
-        <Grid container justify="space-between" className={classes.row}>
-          <Grid item>
-            <Typography>Balance: {address.balance}</Typography>
+        <Grid container className={classes.row}>
+          <Grid item xs={12} md={4}>          
+            <BalanceDisplay text="Balance" value={address.balance} />
           </Grid>
-          <Grid item>
-            <Typography>Unconfirmed Balance: {address.unconfirmed_balance}</Typography>
+          <Grid item xs={12} md={4}>
+            <BalanceDisplay text="Unconfirmed Balance" value={address.unconfirmed_balance} />
           </Grid>
-          <Grid item>
-            <Typography>Final Balance: {address.final_balance}</Typography>
+          <Grid item xs={12} md={4}>
+            <BalanceDisplay text="Final Balance" value={address.final_balance} />
           </Grid>
         </Grid>
         <Grid container>
