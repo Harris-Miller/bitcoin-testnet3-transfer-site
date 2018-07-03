@@ -18,8 +18,8 @@ describe('routes/api/auth', () => {
 
       const passwordDigest = bcrypt.hashSync('test123', 10);
 
-      const fetchObj = {
-        get: key => fetchObj[key],
+      const mockFetchReturnObj = {
+        get: key => mockFetchReturnObj[key],
         id: 1,
         email: 'example@gmail.com',
         username: 'example',
@@ -27,7 +27,7 @@ describe('routes/api/auth', () => {
       };
 
       User.query.withArgs({ where: { email: 'example@gmail.com' } }).returns({
-        fetch: () => Promise.resolve(fetchObj)
+        fetch: () => Promise.resolve(mockFetchReturnObj)
       });
     });
 
