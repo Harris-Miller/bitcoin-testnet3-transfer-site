@@ -12,6 +12,7 @@ import Wrapper from './scenes/wrapper';
 import Intro from './scenes/intro';
 import Address from './scenes/address';
 import NotFound from './scenes/not-found';
+import AuthenticatedRoute from './components/authenticated-route';
 import { setCurrentUser } from './actions/auth';
 
 const jwtToken = localStorage.getItem('jwtToken');
@@ -31,7 +32,7 @@ class App extends Component {
             <Wrapper>
               <Switch>
                 <Route exact path="/" component={Intro} />
-                <Route path="/:address" component={Address} />
+                <AuthenticatedRoute path="/address/:address" component={Address} />
                 <Route component={NotFound} />
               </Switch>
             </Wrapper>

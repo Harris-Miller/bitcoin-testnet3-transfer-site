@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 
 app.use('/api', require('./routes/api'));
 app.use('/static', express.static(path.join(__dirname, 'bitcoin-testnet3-front-end/build/static')));
-app.use(express.static(path.join(__dirname, 'bitcoin-testnet3-front-end/build')));
+app.use('/*', express.static(path.join(__dirname, 'bitcoin-testnet3-front-end/build')));
 
 // error handler
 // eslint-disable-next-line no-unused-vars

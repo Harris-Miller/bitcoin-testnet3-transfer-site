@@ -18,7 +18,7 @@ class Addresses extends Component {
   };
 
   handleClick = key => {
-    this.props.history.push(`/${key}`);
+    this.props.history.push(`/address/${key}`);
     this.props.closeDrawer();
   };
 
