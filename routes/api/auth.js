@@ -16,7 +16,7 @@ router.route('/').post((req, res, next) => {
   }
 
   User
-    .query(qb => qb.where({ email }))
+    .query({where: { email } })
     .fetch()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.get('passwordDigest'))) {
