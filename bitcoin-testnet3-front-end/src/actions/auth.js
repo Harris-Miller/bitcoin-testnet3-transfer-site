@@ -1,8 +1,6 @@
-import axios from 'axios';
-import setAuthorizationToken from '../utils/set-authorization-token';
 import jwtDecode from 'jwt-decode';
-
-const apiHost = process.env.REACT_APP_API_HOST;
+import setAuthorizationToken from '../utils/set-authorization-token';
+import api from '../utils/api';
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
@@ -28,9 +26,9 @@ export function setCurrentUser(token) {
 }
 
 export function login(data) {
-  return axios.post(`${apiHost}/api/auth`, data).then(res => res.data.token);
+  return api.post('/api/auth', data).then(res => res.data.token);
 }
 
 export function singupUser(userObj) {
-  return axios.post(`${apiHost}/api/users`, userObj).then(res => res.data);
+  return api.post('/api/users', userObj).then(res => res.data);
 }

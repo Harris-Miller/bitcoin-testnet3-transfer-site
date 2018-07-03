@@ -34,7 +34,7 @@ class AddAddressDialog extends Component {
   };
 
   handleError = err => {
-    // intentially blank
+    // ignore errors
   };
 
   handleScan = result => {
@@ -86,6 +86,7 @@ class AddAddressDialog extends Component {
             <Grid
               container
               justify="space-between"
+              alignItems="center"
             >
               <Grid item>
                 Add Address
