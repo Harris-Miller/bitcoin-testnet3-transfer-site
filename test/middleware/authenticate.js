@@ -6,7 +6,7 @@ const authenticate = require('../../middleware/authenticate');
 describe('middleware/authenticate', () => {
   it('returns Forbidden error via next() if no token is provided', () => {
     const req = {
-      get(key) {
+      get() {
         return null;
       }
     };
@@ -22,7 +22,7 @@ describe('middleware/authenticate', () => {
     const req = {
       get(key) {
         if (key === 'authorization') {
-          return "abcdefg1234567";
+          return 'abcdefg1234567';
         }
 
         return null;
@@ -40,7 +40,7 @@ describe('middleware/authenticate', () => {
     const req = {
       get(key) {
         if (key === 'authorization') {
-          return "Bearer abcdefg1234567";
+          return 'Bearer abcdefg1234567';
         }
 
         return null;
@@ -59,7 +59,7 @@ describe('middleware/authenticate', () => {
       get(key) {
         if (key === 'authorization') {
           // this auth key is from testing, and decodes with id === 1
-          return "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJIYXJyaXMgTWlsbGVyIiwiaWF0IjoxNTMwNTY4NjM5fQ.C-puSgL_CSqmIztQ6Yy91v2tfMZ02B3ziS5evmvKdgM";
+          return 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJIYXJyaXMgTWlsbGVyIiwiaWF0IjoxNTMwNTY4NjM5fQ.C-puSgL_CSqmIztQ6Yy91v2tfMZ02B3ziS5evmvKdgM';
         }
 
         return null;
