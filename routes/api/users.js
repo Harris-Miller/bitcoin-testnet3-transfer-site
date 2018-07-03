@@ -14,7 +14,7 @@ const { BLOCKCYPHER_TOKEN, APP_URL } = process.env;
 
 router.route('/').get((req, res) => {
   User
-    .query({ select: ['id', 'username', 'email'])
+    .query({ select: ['id', 'username', 'email'] })
     .fetchAll()
     .then(users => res.json(users));
 });
