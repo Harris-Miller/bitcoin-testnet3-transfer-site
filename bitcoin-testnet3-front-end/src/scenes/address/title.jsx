@@ -8,7 +8,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import Tooltip from '@material-ui/core/Tooltip';
+import SettingsOverscan from '@material-ui/icons/SettingsOverscan'
 import DeleteIcon from '@material-ui/icons/Delete';
 import { removeAddress, getAddresses } from '../../actions/address';
 import QRCodeDialog from './qr-code-dialog';
@@ -61,12 +62,16 @@ class AddressTitle extends Component {
           <Grid item xs={4}>
             <Grid container justify="flex-end">
               <Grid item>
-                <IconButton onClick={() => this.setState({ qrDialogOpen: true })}>
-                  <PhotoCameraIcon />
-                </IconButton>
-                <IconButton onClick={() => this.setState({ removeDialogOpen: true })}>
-                  <DeleteIcon />
-                </IconButton>
+                <Tooltip title="Display QR Code">
+                  <IconButton onClick={() => this.setState({ qrDialogOpen: true })}>
+                    <SettingsOverscan />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Remove Address">
+                  <IconButton onClick={() => this.setState({ removeDialogOpen: true })}>
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
               </Grid>
             </Grid>
           </Grid>

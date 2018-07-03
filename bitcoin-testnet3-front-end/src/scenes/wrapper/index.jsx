@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
+import Tooltip from '@material-ui/core/Tooltip';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import Octicon from 'react-octicon';
@@ -179,19 +180,23 @@ class ResponsiveDrawer extends Component {
             </Typography>
             <div>
               <Exchange />
-              <IconButton color="inherit" onClick={this.toHome}>
-                <HomeIcon />
-              </IconButton>
-              <IconButton color="inherit" >
-                <a
-                  href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={classes.anchorInheritColor}
-                >
-                  <Octicon name="mark-github" mega />
-                </a>
-              </IconButton>
+              <Tooltip title="Home">
+                <IconButton color="inherit" onClick={this.toHome}>
+                  <HomeIcon />
+                </IconButton>
+              </Tooltip>
+                <Tooltip title="Github">
+                <IconButton color="inherit" >
+                  <a
+                    href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={classes.anchorInheritColor}
+                  >
+                    <Octicon name="mark-github" mega />
+                  </a>
+                </IconButton>
+              </Tooltip>
             </div>
           </Toolbar>
         </AppBar>

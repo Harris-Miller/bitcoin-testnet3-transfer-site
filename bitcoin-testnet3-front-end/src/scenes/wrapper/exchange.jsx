@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Tooltip from '@material-ui/core/Tooltip';
 import BitcoinExchangeIcon from './bitcoin-exchange-icon';
 
 const styles = theme => ({
@@ -40,9 +41,11 @@ class Exchange extends Component {
           </div>
         </Hidden>
         <Hidden mdUp>
-          <IconButton onClick={this.handleClick}>
-            <BitcoinExchangeIcon color="white" />
-          </IconButton>
+          <Tooltip title="Display Exchange Rate">
+            <IconButton onClick={this.handleClick}>
+              <BitcoinExchangeIcon color="white" />
+            </IconButton>
+          </Tooltip>
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}
