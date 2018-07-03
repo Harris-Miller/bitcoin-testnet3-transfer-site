@@ -14,7 +14,7 @@ const { BLOCKCYPHER_TOKEN, APP_URL } = process.env;
 
 router.route('/').get((req, res) => {
   User
-    .query(qb => qb.select('id', 'username', 'email'))
+    .query({ select: ['id', 'username', 'email'])
     .fetchAll()
     .then(users => res.json(users));
 });
@@ -50,9 +50,7 @@ router.route('/:id/addresses').get(authenticate, (req, res, next) => {
   }
 
   Address
-    .query({
-      where: { user_id: req.params.id }
-    })
+    .query({ where: { user_id: req.params.id } })
     .fetchAll()
     .then(results => Promise.all(results.map(r => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${r.get('key')}/full`).then(({ data }) => data))))
     .then(results => {
@@ -72,7 +70,7 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
   const { key } = req.body;
 
   Address
-    .query(qb => qb.where({ key }))
+    .query({ where: { key } })
     .fetch()
     .then(address => {
       if (address) {
@@ -115,7 +113,7 @@ router.route('/:id/addresses/:address').delete(authenticate, (req, res, next) =>
   const { address: key } = req.params;
 
   Address
-    .query(qb => qb.where({ key }))
+    .query({ where : { key } })
     .fetch()
     .then(address => {
       if (!address) {
