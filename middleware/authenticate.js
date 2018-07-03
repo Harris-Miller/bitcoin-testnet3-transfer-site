@@ -1,3 +1,5 @@
+'use strict';
+
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -8,7 +10,7 @@ const authenticate = (req, res, next) => {
 
   let token;
 
-  if (authorizationHeader) {
+  if (authorizationHeader && authorizationHeader.includes('Bearer ')) {
     token = authorizationHeader.split(' ')[1];
   }
 

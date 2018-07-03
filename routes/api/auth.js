@@ -11,6 +11,10 @@ const config = require('../../config');
 router.route('/').post((req, res, next) => {
   const { email, password } = req.body;
 
+  if (!email || !password) {
+    return next(new createError.BadRequest('Invalid Credentials'))
+  }
+
   User
     .query(qb => qb.where({ email }))
     .fetch()
