@@ -17,9 +17,9 @@ class BalanceDisplay extends Component {
     value: PropTypes.number.isRequired
   };
 
-  convertTomBTC = value => (value * 10e-5);
+  convertTomBTC = value => (value * 10e-6);
 
-  convertToUSD = value => ((value * 10e-8) * parseFloat(this.props.bpi.bpi.USD.rate_float));
+  convertToUSD = value => ((value * 10e-9) * parseFloat(this.props.bpi.bpi.USD.rate_float));
 
   render() {
     const { text, value, classes } = this.props;
