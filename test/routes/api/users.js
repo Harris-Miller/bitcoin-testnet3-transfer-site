@@ -21,7 +21,7 @@ describe('routes/api/users', () => {
     it('returns 201 on a successfully adding a new user');
   });
 
-  describe('GET /:id/addresses',  () => {
+  describe('GET /:id/addresses', () => {
     authenticationTests('get', '/api/users/1/addresses');
     it('needs tests');
   });

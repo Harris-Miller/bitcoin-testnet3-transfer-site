@@ -11,7 +11,7 @@ describe('route/api/callbacks', () => {
   });
 
   describe('POST /transaction/:address', () => {
-    it('returns a 204 and emits data via socket.io', () => 
+    it('returns a 204 and emits data via socket.io', () =>
       request(app)
         .post('/api/callbacks/transaction/abcdefg1234567')
         .send({ foo: 'bar' })
