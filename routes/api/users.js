@@ -67,8 +67,8 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
   }
 
   Address
-    .query({ where: { key, userId, } })
-    .fetch() 
+    .query({ where: { key, userId } })
+    .fetch()
     .then(address => {
       if (address) {
         // address already added, fetch expanded data, process and return
