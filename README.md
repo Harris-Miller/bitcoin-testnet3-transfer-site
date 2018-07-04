@@ -95,3 +95,15 @@ Note: I'm currently having issues with doing the build post push to Heroku and h
 I'm using [react-redux](https://github.com/reduxjs/react-redux), [immutablejs](https://facebook.github.io/immutable-js/), [react-router](https://reacttraining.com/react-router/web/guides/philosophy), and [MaterialUI](https://material-ui.com/) as the main components for the front-end.
 
 The app is Material Design based, and is responsive to mobile.
+
+### Build and Dev Tools
+
+This is a standard `create-react-app` and the normal build process applies. The npm scripts includes `start`, `build`, and `test`
+
+### Linting
+
+Linting is a default part of the start (serve) and build process
+
+### Testing
+
+Standard testing applies using [Jest](https://jestjs.io/) and [Enzyme](http://airbnb.io/enzyme/).
