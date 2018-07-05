@@ -8,7 +8,7 @@ const router = new express.Router();
 const User = require('../../models/user');
 const Address = require('../../models/address');
 const authenticate = require('../../middleware/authenticate');
-const addrToResObj = require('../../utils/addrToResObj');
+const addrToResObj = require('../../utils/addr-to-res-obj');
 
 const { BLOCKCYPHER_TOKEN, APP_URL } = process.env;
 

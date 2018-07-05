@@ -2,7 +2,6 @@
 
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
 const config = require('../config');
 
 const authenticate = (req, res, next) => {
@@ -17,7 +16,7 @@ const authenticate = (req, res, next) => {
   if (token) {
     jwt.verify(token, config.jwtSecret, (err, decoded) => {
       if (err) {
-        return next(new createError.Unauthorized())
+        return next(new createError.Unauthorized());
       }
 
       req.userId = decoded.id;

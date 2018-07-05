@@ -5,7 +5,7 @@
   "scripts": {
     "db:migrate": "knex migrate:latest",
     "bump": "CI=true sh ./scripts/build-prod.sh && bump --prompt --commit --tag --all",
-    "lint": "eslint db routes test *.js",
+    "lint": "eslint **/*.js",
     "start": "node ./bin/www",
     "start:dev": "nodemon --watch app.js --watch middleware --watch models --watch routes --exec node -- ./bin/www",
     "test": "NODE_ENV=test nyc mocha --recursive",

@@ -6,6 +6,6 @@ const Address = require('./address');
 module.exports = bookshelf.Model.extend({
   tableName: 'users',
   addresses() {
-    return this.hasMany(Address)
+    return this.hasMany(Address);
   }
 });
