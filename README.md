@@ -90,8 +90,6 @@ This endpoint is the callback endpoint for the webhooks created for user address
 
 This react app is a standard `create-react-app`. It has not been ejected. It exists in the `bitcoin-testnet3-front-end` folder.
 
-Note: I'm currently having issues with doing the build post push to Heroku and having it run correctly. So I'm prebuilding and commiting the /build folder. I'd like not to have to do this, but until I figure out the issue with Heroku, it's the way it has to be.
-
 I'm using [react-redux](https://github.com/reduxjs/react-redux), [immutablejs](https://facebook.github.io/immutable-js/), [react-router](https://reacttraining.com/react-router/web/guides/philosophy), and [MaterialUI](https://material-ui.com/) as the main components for the front-end.
 
 The app is Material Design based, and is responsive to mobile.
