@@ -1,6 +1,6 @@
 {
   "name": "bitcoin-testnet3-transfer-site",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "private": true,
   "scripts": {
     "db:migrate": "knex migrate:latest",
