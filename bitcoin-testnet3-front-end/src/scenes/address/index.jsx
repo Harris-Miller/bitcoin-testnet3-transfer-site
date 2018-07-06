@@ -53,7 +53,11 @@ class Address extends Component {
               <Typography className={classes.heading} gutterBottom={true}>{txs.hash}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <LinearProgress variant="buffer" color={this.progressColor(txs.confirmations)} value={this.progressPercentage(txs.confirmations)} />
+              <LinearProgress
+                variant="buffer"
+                color={this.progressColor(txs.confirmations)}
+                value={this.progressPercentage(txs.confirmations)}
+                valueBuffer={100} />
             </Grid>
           </Grid>
         </ExpansionPanelSummary>
