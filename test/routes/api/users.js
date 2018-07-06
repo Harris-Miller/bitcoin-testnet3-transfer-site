@@ -43,6 +43,7 @@ describe('routes/api/users', () => {
     function getMockFetchReturnObj() {
       const mockFetchReturnObj = {
         get: key => mockFetchReturnObj[key],
+        destroy: () => Promise.resolve(),
         id: 1,
         key: 'abcdefg1234567',
         userId: '1',
@@ -58,17 +59,34 @@ describe('routes/api/users', () => {
         fetchAll: () => Promise.resolve([getMockFetchReturnObj()]),
       });
 
+    // we call this multiple times in order
+    // and ned the different results in this order
     Address.query
       .withArgs({ where: { user_id: '1', key: 'abcdefg1234567'}})
-      .onFirstCall()
+      .onCall(0)
       .returns({
         fetch: () => Promise.resolve(getMockFetchReturnObj())
       });
 
     Address.query
       .withArgs({ where: { user_id: '1', key: 'abcdefg1234567'}})
+      .onCall(1)
       .returns({
         fetch: () => Promise.resolve(null)
+      });
+
+    Address.query
+      .withArgs({ where: { user_id: '1', key: 'abcdefg1234567'}})
+      .onCall(2)
+      .returns({
+        fetch: () => Promise.resolve(null)
+      });
+
+    Address.query
+      .withArgs({ where: { user_id: '1', key: 'abcdefg1234567'}})
+      .onCall(3)
+      .returns({
+        fetch: () => Promise.resolve(getMockFetchReturnObj())
       });
 
     sinon.stub(Address.prototype, 'save');
@@ -94,11 +112,11 @@ describe('routes/api/users', () => {
     // it's stupid
     axios.get
       .withArgs('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full')
-      .onFirstCall()
+      .onCall(0)
       .returns(getFullAddressData())
-      .onSecondCall()
+      .onCall(1)
       .returns(getFullAddressData())
-      .onThirdCall()
+      .onCall(2)
       .returns(getFullAddressData());
 
     sinon.stub(axios, 'post');
@@ -201,7 +219,7 @@ describe('routes/api/users', () => {
 
     it('returns a 401 if the authorized user is trying to access not their addresses', () =>
       request(app)
-        .get('/api/users/1/addresses')
+        .post('/api/users/1/addresses')
         .set('authorization', `Bearer ${badBearerToken}`)
         .expect(401)
     );
@@ -263,15 +281,23 @@ describe('routes/api/users', () => {
 
     it('returns a 401 if the authorized user is trying to access not their addresses', () =>
       request(app)
-        .get('/api/users/1/addresses')
+        .delete('/api/users/1/addresses/abcdefg1234567')
         .set('authorization', `Bearer ${badBearerToken}`)
         .expect(401)
     );
 
-    it('returns a 400 if the address key does not exist for the user');
+    it('returns a 400 if the address key does not exist for the user', () =>
+      request(app)
+        .delete('/api/users/1/addresses/abcdefg1234567')
+        .set('authorization', `Bearer ${goodBearerToken}`)
+        .expect(400)
+    );
 
-    it('returns a 204 if the key exist, not calling delete for eventId if eventId does not exist for address');
-
-    it('returns a 204 if the key exist, calling delete for eventId if eventId does exist for address');
+    it('returns a 204 if the key exist,', () =>
+      request(app)
+        .delete('/api/users/1/addresses/abcdefg1234567')
+        .set('authorization', `Bearer ${goodBearerToken}`)
+        .expect(204)
+    );
   });
 });

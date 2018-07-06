@@ -110,7 +110,7 @@ router.route('/:id/addresses/:address').delete(authenticate, (req, res, next) =>
   const { address: key, id: userId } = req.params;
 
   Address
-    .query({ where: { key, userId } })
+    .query({ where: { key, user_id: userId } })
     .fetch()
     .then(address => {
       if (!address) {
