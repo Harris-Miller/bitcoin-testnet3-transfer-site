@@ -1,2 +1,4 @@
 node_modules
 bitcoin-testnet3-front-end
+coverage
+.nyc_output
