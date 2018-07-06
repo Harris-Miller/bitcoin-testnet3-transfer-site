@@ -10,6 +10,16 @@ const Address = require('../../../models/address');
 const config = require('../../../config');
 const authenticationTests = require('../../middleware/authenticate');
 
+const goodBearerToken = jwt.sign({
+  id: 1,
+  username: 'John Doe'
+}, config.jwtSecret);
+
+const badBearerToken = jwt.sign({
+  id: 99,
+  username: 'Unknown User'
+}, config.jwtSecret);
+
 describe('routes/api/users', () => {
   before(() => {
     sinon.stub(User.prototype, 'save');
@@ -39,16 +49,21 @@ describe('routes/api/users', () => {
     Address.query
       .withArgs({ where: { user_id: '1' } })
       .returns({
-        fetchAll: () => Promise.resolves([mockFetchReturnObj])
+        fetchAll: () => Promise.resolve([mockFetchReturnObj])
       });
 
     sinon.stub(axios, 'get');
 
-    axios.get.withArgs('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg123456/full').returns({
-      data: [{
-
-      }]
-    });
+    axios.get.withArgs('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full').returns(Promise.resolve({
+      data: {
+        address: 'abcdefg1234567',
+        foo: 'bar',
+        txs: [{
+          hash: 'abc',
+          biz: 'baz'
+        }]
+      }
+    }));
   });
 
   after(() => {
@@ -97,11 +112,47 @@ describe('routes/api/users', () => {
 
   describe('GET /:id/addresses', () => {
     authenticationTests('get', '/api/users/1/addresses');
-    it('needs tests');
+
+    it('returns a 401 if the authorized user is trying to access not their addresses', () =>
+      request(app)
+        .get('/api/users/1/addresses')
+        .set('authorization', `Bearer ${badBearerToken}`)
+        .expect(401)
+    );
+
+    it('returns a 200 and a correct json object', () =>
+      request(app)
+        .get('/api/users/1/addresses')
+        .set('authorization', `Bearer ${goodBearerToken}`)
+        .expect(200)
+        .then(res => {
+          expect(res.body).to.deep.equal({
+            abcdefg1234567: {
+              address: 'abcdefg1234567',
+              foo: 'bar',
+              txs: {
+                abc: {
+                  hash: 'abc',
+                  biz: 'baz'
+                }
+              }
+            }
+          });
+          expect(axios.get).to.have.been.calledWith('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full');
+        })
+    );
   });
 
   describe('POST /:id/addresses', () => {
     authenticationTests('post', '/api/users/1/addresses');
+
+    it('returns a 401 if the authorized user is trying to access not their addresses', () =>
+      request(app)
+        .get('/api/users/1/addresses')
+        .set('authorization', `Bearer ${badBearerToken}`)
+        .expect(401)
+    );
+
     it('needs tests');
   });
 
