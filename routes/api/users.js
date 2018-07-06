@@ -67,7 +67,7 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
   }
 
   Address
-    .query({ where: { key, userId } })
+    .query({ where: { key, user_id: userId } })
     .fetch()
     .then(address => {
       if (address) {
@@ -107,10 +107,10 @@ router.route('/:id/addresses/:address').delete(authenticate, (req, res, next) =>
     return next(new createError.Unauthorized());
   }
 
-  const { address: key } = req.params;
+  const { address: key, id: userId } = req.params;
 
   Address
-    .query({ where: { key } })
+    .query({ where: { key, userId } })
     .fetch()
     .then(address => {
       if (!address) {
