@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -19,6 +20,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import Octicon from 'react-octicon';
 import Addresses from './addresses';
 import Exchange from './exchange';
+import MadeBy from './made-by';
 import Fab from '../../components/fab';
 import SignupDialog from './signup-dialog';
 import LoginDialog from './login-dialog';
@@ -161,7 +163,16 @@ class ResponsiveDrawer extends Component {
       </div>
     );
 
-    const drawer = auth.isAuthenticated ? loggedIn : loggedOut;
+    const drawer = (
+      <Grid container direction="column" justify="space-between" style={{ flexGrow: 1 }}>
+        <Grid item>
+          {auth.isAuthenticated ? loggedIn : loggedOut}
+        </Grid>
+        <Grid item>
+          <MadeBy />
+        </Grid>
+      </Grid>
+    );
 
     return (
       <div className={classes.root}>
