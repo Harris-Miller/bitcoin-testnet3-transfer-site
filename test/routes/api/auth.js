@@ -31,41 +31,42 @@ describe('routes/api/auth', () => {
       });
     });
 
-    after(() => User.query.restore());
+    after(() => {
+      User.query.restore();
+    });
 
-    it('returns 400 if email or password are missing', () =>
-      request(app)
+    it('returns 400 if email or password are missing', async () => {
+      await request(app)
         .post('/api/auth')
-        .expect(400)
-    );
+        .expect(400);
+    });
 
-    it('returns 401 if email is not found in database', () =>
-      request(app)
+    it('returns 401 if email is not found in database', async () => {
+      await request(app)
         .post('/api/auth')
         .send({ email: 'notInDatabase@gmail.com', password: 'test123' })
-        .expect(401)
-    );
+        .expect(401);
+    });
 
-    it('returns 401 error via next() if email exists, but password does not match', () =>
+    it('returns 401 error via next() if email exists, but password does not match', async () => {
       request(app)
         .post('/api/auth')
         .send({ email: 'example@gmail.com', password: 'notCorrect' })
-        .expect(401)
-    );
+        .expect(401);
+    });
 
-    it('returns 200 with json web token if email and password are correct', () => {
+    it('returns 200 with json web token if email and password are correct', async () => {
       const expectedToken = jwt.sign({
         id: 1,
         username: 'example'
       }, config.jwtSecret);
 
-      return request(app)
+      const res = await request(app)
         .post('/api/auth')
         .send({ email: 'example@gmail.com', password: 'test123' })
-        .expect(200)
-        .then(res => {
-          expect(res.body.token).to.equal(expectedToken);
-        });
+        .expect(200);
+
+      expect(res.body.token).to.equal(expectedToken);
     });
   });
 });

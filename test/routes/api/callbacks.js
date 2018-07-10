@@ -10,17 +10,22 @@ describe('route/api/callbacks', () => {
     sinon.stub(app.io.sockets, 'emit');
   });
 
-  describe('POST /transaction/:address', () => {
-    it('returns a 204 and emits data via socket.io', () =>
-      request(app)
-        .post('/api/callbacks/transaction/abcdefg1234567')
-        .send({ foo: 'bar' })
-        .expect(204)
-        .then(() => expect(app.io.sockets.emit).to.have.been.calledWith('transaction', { address: 'abcdefg1234567', txs: { foo: 'bar' } }))
-    );
+  beforeEach(() => {
+    app.io.sockets.emit.reset();
   });
 
   after(() => {
     app.io.sockets.emit.restore();
+  });
+
+  describe('POST /transaction/:address', () => {
+    it('returns a 204 and emits data via socket.io', async () => {
+      await request(app)
+        .post('/api/callbacks/transaction/abcdefg1234567')
+        .send({ foo: 'bar' })
+        .expect(204);
+
+      expect(app.io.sockets.emit).to.have.been.calledWith('transaction', { address: 'abcdefg1234567', txs: { foo: 'bar' } });
+    });
   });
 });

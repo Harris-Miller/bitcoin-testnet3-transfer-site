@@ -6,7 +6,7 @@
     "db:migrate": "knex migrate:latest",
     "bump": "CI=true sh ./scripts/build-prod.sh && bump --prompt --commit --tag --all",
     "heroku-postbuild": "cd bitcoin-testnet3-front-end && yarn && yarn build",
-    "lint": "eslint **/*.js",
+    "lint": "eslint .",
     "start": "node ./bin/www",
     "start:dev": "nodemon --watch app.js --watch middleware --watch models --watch routes --exec node -- ./bin/www",
     "test": "NODE_ENV=test nyc --reporter=text --reporter=html mocha --recursive",
