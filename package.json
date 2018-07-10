@@ -9,8 +9,8 @@
     "lint": "eslint .",
     "start": "node ./bin/www",
     "start:dev": "nodemon --watch app.js --watch middleware --watch models --watch routes --exec node -- ./bin/www",
-    "test": "NODE_ENV=test nyc --reporter=text --reporter=html mocha --recursive --exit",
-    "test:watch": "NODE_ENV=test mocha --recursive --watch"
+    "test": "NODE_ENV=test nyc --reporter=text --reporter=html mocha --check-leaks --recursive --exit",
+    "test:watch": "NODE_ENV=test mocha --check-leaks --recursive --watch"
   },
   "dependencies": {
     "axios": "^0.18.0",
