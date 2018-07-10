@@ -85,7 +85,9 @@ class SignupDialog extends Component {
   handleTextChange = name => ({ target }) => this.setState({ [name]: target.value });
 
   render() {
-    const { onClose, classes, ...rest } = this.props;
+    // dispatch is just so it's not passed to Dialog
+    const { onClose, classes, dispatch: _, ...rest } = this.props;
+
     return (
       <Dialog
         onClose={this.handleClose}
