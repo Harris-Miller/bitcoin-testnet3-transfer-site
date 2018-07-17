@@ -19,6 +19,9 @@ const styles = theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
+    width: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   }
 });
 
@@ -50,7 +53,7 @@ class Address extends Component {
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Grid container>
             <Grid item xs={12}>
-              <Typography className={classes.heading} gutterBottom={true}>{txs.hash}</Typography>
+              <Typography component="span" className={classes.heading} gutterBottom={true}>{txs.hash}</Typography>
             </Grid>
             <Grid item xs={12}>
               <LinearProgress

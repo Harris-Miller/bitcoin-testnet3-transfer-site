@@ -8,8 +8,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = theme => ({
   nested: {
-    paddingLeft: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing.unit * 4
   },
+  primary: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  }
 });
 
 class Addresses extends Component {
@@ -33,7 +37,7 @@ class Addresses extends Component {
         <List disablePadding>
           {Object.keys(addresses).map(key => (
             <ListItem key={key} button className={classes.nested} onClick={() => this.handleClick(key)}>
-              <ListItemText primary={key} />
+              <ListItemText primary={key} classes={{ primary: classes.primary }} />
             </ListItem>
           ))}
         </List>
