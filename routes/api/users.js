@@ -38,7 +38,7 @@ router.route('/').post((req, res, next) => {
     }).catch(err => next(new createError.InternalServerError(err)));
 });
 
-router.route('/:id/addresses').get(authenticate, authorizeByIdParam, (req, res, next) => {
+router.route('/:id/addresses').get(authenticate, authorizeByIdParam, (req, res) => {
   Address
     .query({ where: { user_id: req.params.id } })
     .fetchAll()
