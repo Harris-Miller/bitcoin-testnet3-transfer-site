@@ -8,6 +8,7 @@ const router = new express.Router();
 const User = require('../../models/user');
 const Address = require('../../models/address');
 const authenticate = require('../../middleware/authenticate');
+const authorizeByIdParam = require('../../middleware/authorize-by-id-param');
 const addrToResObj = require('../../utils/addr-to-res-obj');
 
 const { BLOCKCYPHER_TOKEN, APP_URL } = process.env;
@@ -37,11 +38,7 @@ router.route('/').post((req, res, next) => {
     }).catch(err => next(new createError.InternalServerError(err)));
 });
 
-router.route('/:id/addresses').get(authenticate, (req, res, next) => {
-  if (req.userId !== parseInt(req.params.id, 10)) {
-    return next(new createError.Unauthorized());
-  }
-
+router.route('/:id/addresses').get(authenticate, authorizeByIdParam, (req, res, next) => {
   Address
     .query({ where: { user_id: req.params.id } })
     .fetchAll()
@@ -54,11 +51,7 @@ router.route('/:id/addresses').get(authenticate, (req, res, next) => {
     });
 });
 
-router.route('/:id/addresses').post(authenticate, (req, res, next) => {
-  if (req.userId !== parseInt(req.params.id, 10)) {
-    return next(new createError.Unauthorized());
-  }
-
+router.route('/:id/addresses').post(authenticate, authorizeByIdParam, (req, res, next) => {
   const { id: userId } = req.params;
   const { key } = req.body;
 
@@ -102,11 +95,7 @@ router.route('/:id/addresses').post(authenticate, (req, res, next) => {
     });
 });
 
-router.route('/:id/addresses/:address').delete(authenticate, (req, res, next) => {
-  if (req.userId !== parseInt(req.params.id, 10)) {
-    return next(new createError.Unauthorized());
-  }
-
+router.route('/:id/addresses/:address').delete(authenticate, authorizeByIdParam, (req, res, next) => {
   const { address: key, id: userId } = req.params;
 
   Address

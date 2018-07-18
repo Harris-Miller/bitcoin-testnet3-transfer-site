@@ -8,6 +8,7 @@ const User = require('../../../models/user');
 const Address = require('../../../models/address');
 const config = require('../../../config');
 const authenticationTests = require('../../middleware/authenticate');
+const authorizeByIdParamTests = require('../../middleware/authorize-by-id-param');
 
 const { BLOCKCYPHER_TOKEN, APP_URL } = process.env;
 
@@ -149,12 +150,7 @@ describe('routes/api/users', () => {
 
     authenticationTests('get', '/api/users/1/addresses');
 
-    it('returns a 401 if the authorized user is trying to access not their addresses', async () => {
-      await request(app)
-        .get('/api/users/1/addresses')
-        .set('authorization', `Bearer ${badBearerToken}`)
-        .expect(401);
-    });
+    authorizeByIdParamTests('get', '/api/users/1/addresses', badBearerToken);
 
     it('returns a 200 and a correct json object', async () => {
       axios.get
@@ -186,12 +182,7 @@ describe('routes/api/users', () => {
   describe('POST /:id/addresses', () => {
     authenticationTests('post', '/api/users/1/addresses');
 
-    it('returns a 401 if the authorized user is trying to access not their addresses', async () => {
-      await request(app)
-        .post('/api/users/1/addresses')
-        .set('authorization', `Bearer ${badBearerToken}`)
-        .expect(401);
-    });
+    authorizeByIdParamTests('post', '/api/users/1/addresses', badBearerToken);
 
     it('returns a 400 if request body is missing param key', async () => {
       await request(app)
@@ -266,12 +257,7 @@ describe('routes/api/users', () => {
   describe('DELETE /:id/addresses/:address', () => {
     authenticationTests('delete', '/api/users/1/addresses/abcdefg1234567');
 
-    it('returns a 401 if the authorized user is trying to access not their addresses', async () => {
-      await request(app)
-        .delete('/api/users/1/addresses/abcdefg1234567')
-        .set('authorization', `Bearer ${badBearerToken}`)
-        .expect(401);
-    });
+    authorizeByIdParamTests('delete', '/api/users/1/addresses/abcdefg1234567', badBearerToken);
 
     it('returns a 400 if the address key does not exist for the user', async () => {
       Address.query
