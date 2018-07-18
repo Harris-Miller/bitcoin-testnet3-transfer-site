@@ -32,7 +32,7 @@ function sortTransactionsKeysByRecieved(txs) {
        const bDate = new Date(txs[b].received);
 
        if (aDate > bDate) { return -1; }
-       if (bDate> aDate) { return 1; }
+       if (bDate > aDate) { return 1; }
 
        return 0
     });

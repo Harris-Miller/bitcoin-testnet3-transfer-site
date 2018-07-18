@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "db:migrate": "knex migrate:latest",
-    "bump": "CI=true sh ./scripts/build-prod.sh && bump --prompt --commit --tag --all",
+    "bump": "cross-env CI=true sh ./scripts/build-prod.sh && bump --prompt --commit --tag --all",
     "heroku-postbuild": "cd bitcoin-testnet3-front-end && yarn && yarn build",
     "lint": "eslint .",
     "start": "node ./bin/www",
     "start:dev": "nodemon --watch app.js --watch middleware --watch models --watch routes --exec node -- ./bin/www",
-    "test": "NODE_ENV=test nyc --reporter=text --reporter=html mocha --check-leaks --recursive --exit",
-    "test:watch": "NODE_ENV=test mocha --check-leaks --recursive --watch"
+    "test": "cross-env NODE_ENV=test nyc --reporter=text --reporter=html mocha --check-leaks --recursive --exit",
+    "test:watch": "cross-env NODE_ENV=test mocha --check-leaks --recursive --watch"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -32,6 +32,7 @@
     "babel-eslint": "^8.2.3",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
+    "cross-env": "^5.2.0",
     "dirty-chai": "^2.0.1",
     "eslint": "^4.19.1",
     "eslint-config-harris": "^1.4.0",
