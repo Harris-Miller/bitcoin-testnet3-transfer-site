@@ -10,7 +10,7 @@
     "start": "node ./bin/www",
     "start:dev": "nodemon --watch app.js --watch middleware --watch models --watch routes --exec node -- ./bin/www",
     "test": "cross-env NODE_ENV=test nyc --reporter=text --reporter=html mocha --check-leaks --recursive --exit",
-    "test:watch": "cross-env NODE_ENV=test mocha --check-leaks --recursive --watch"
+    "test:watch": "cross-env NODE_ENV=test mocha --reporter=min --check-leaks --recursive --watch"
   },
   "dependencies": {
     "axios": "^0.18.0",
