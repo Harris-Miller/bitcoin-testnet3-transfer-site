@@ -42,7 +42,7 @@ router.route('/:id/addresses').get(authenticate, authorizeByIdParam, (req, res) 
   Address
     .query({ where: { user_id: req.params.id } })
     .fetchAll()
-    .then(results => Promise.all(results.map(r => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${r.get('key')}/full`).then(({ data }) => data))))
+    .then(results => Promise.all(results.map(r => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${r.get('key')}/full?limit=50`).then(({ data }) => data))))
     .then(results => {
       // instead of just having an array of addresses, and those having an array of transactions
       // let's convert those arrays into key'd objects, where the address/hash
@@ -65,7 +65,7 @@ router.route('/:id/addresses').post(authenticate, authorizeByIdParam, (req, res,
     .then(address => {
       if (address) {
         // address already added, fetch expanded data, process and return
-        axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${address.get('key')}/full`)
+        axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${address.get('key')}/full?limit=50`)
           .then(({ data }) => data)
           .then(result => res.status(201).json(addrToResObj([result])));
       } else {
@@ -88,7 +88,7 @@ router.route('/:id/addresses').post(authenticate, authorizeByIdParam, (req, res,
             })
             .save()
           )
-          .then(newAddress => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${newAddress.get('key')}/full`))
+          .then(newAddress => axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${newAddress.get('key')}/full?limit=50`))
           .then(({ data }) => data)
           .then(result => res.status(201).json(addrToResObj([result])));
       }

@@ -99,6 +99,6 @@ class Address extends Component {
   }
 }
 
-const mapStateToProps = ({ addresses }) =>({ addresses: addresses.toJS() });
+const mapStateToProps = ({ addresses }) => ({ addresses: addresses.toJS() });
 
 export default connect(mapStateToProps)(withStyles(styles)(Address));
