@@ -154,7 +154,7 @@ describe('routes/api/users', () => {
 
     it('returns a 200 and a correct json object', async () => {
       axios.get
-        .withArgs('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full')
+        .withArgs('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full?limit=50')
         .returns(getFullAddressData());
 
       const res = await request(app)
@@ -175,7 +175,7 @@ describe('routes/api/users', () => {
         }
       });
 
-      expect(axios.get).to.have.been.calledWith('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full');
+      expect(axios.get).to.have.been.calledWith('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full?limit=50');
     });
   });
 
@@ -199,7 +199,7 @@ describe('routes/api/users', () => {
         });
 
       axios.get
-        .withArgs('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full')
+        .withArgs('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full?limit=50')
         .returns(getFullAddressData());
 
       const res = await request(app)
@@ -230,7 +230,7 @@ describe('routes/api/users', () => {
         });
 
       axios.get
-        .withArgs('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full')
+        .withArgs('https://api.blockcypher.com/v1/btc/test3/addrs/abcdefg1234567/full?limit=50')
         .returns(getFullAddressData());
 
       const res = await request(app)
