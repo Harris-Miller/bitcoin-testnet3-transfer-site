@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -11,8 +12,17 @@ import TextInput from '../../components/text-input';
 import { singupUser, login, setCurrentUser } from '../../actions/auth';
 
 class SignupDialog extends Component {
+  static propTypes = {
+    onClose: PropTypes.func,
+    dispatch: PropTypes.func.isRequired,
+    classes: PropTypes.shape().isRequired
+  };
+
+  static defaultProps = {
+    onClose: () => {}
+  };
+
   state = {
-    open: false,
     username: '',
     email: '',
     password: '',
@@ -27,17 +37,13 @@ class SignupDialog extends Component {
     passwordConfirmHelperText: ''
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
   handleClose = () => {
     this.props.onClose();
   };
 
   signup = () => {
     const { username, email, password, passwordConfirm } = this.state;
-    
+
     // reset all errors
     this.setState({
       usernameError: false,
@@ -51,23 +57,23 @@ class SignupDialog extends Component {
     });
 
     if (!username) {
-      this.setState({ usernameError: true, usernameHelperText: 'User Name is required'});
+      this.setState({ usernameError: true, usernameHelperText: 'User Name is required' });
     }
 
     if (!email) {
-      this.setState({ emailError: true, emailHelperText: 'E-Mail is required'}); 
+      this.setState({ emailError: true, emailHelperText: 'E-Mail is required' });
     }
 
     if (!password) {
-      this.setState({ passwordError: true, passwordHelperText: 'Password is required'});
+      this.setState({ passwordError: true, passwordHelperText: 'Password is required' });
     }
 
     if (!passwordConfirm) {
-      this.setState({ passwordConfirmError: true, passwordConfirmHelperText: 'Confirm Password is required'});
+      this.setState({ passwordConfirmError: true, passwordConfirmHelperText: 'Confirm Password is required' });
     }
 
     if (password !== passwordConfirm) {
-      this.setState({ passwordConfirmError: true, passwordConfirmHelperText: 'Passwords do not match!'})
+      this.setState({ passwordConfirmError: true, passwordConfirmHelperText: 'Passwords do not match!' });
     }
 
     if (this.state.usernameError || this.state.emailError || this.state.passwordError || this.state.passwordConfirmError) {
@@ -80,7 +86,7 @@ class SignupDialog extends Component {
         this.props.dispatch(setCurrentUser(token));
         this.handleClose();
       });
-  }
+  };
 
   handleTextChange = name => ({ target }) => this.setState({ [name]: target.value });
 

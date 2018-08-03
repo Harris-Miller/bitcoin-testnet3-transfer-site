@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -11,8 +12,17 @@ import TextInput from '../../components/text-input';
 import { login, setCurrentUser } from '../../actions/auth';
 
 class LoginDialog extends Component {
+  static propTypes = {
+    onClose: PropTypes.func,
+    dispatch: PropTypes.func.isRequired,
+    classes: PropTypes.shape().isRequired
+  };
+
+  static defaultProps = {
+    onClose: () => {}
+  };
+
   state = {
-    open: false,
     email: '',
     password: '',
     emailError: false,
@@ -21,17 +31,13 @@ class LoginDialog extends Component {
     passwordHelperText: ''
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
   handleClose = () => {
     this.props.onClose();
   };
 
   login = () => {
     const { email, password } = this.state;
-    
+
     // reset all errors
     this.setState({
       emailError: false,
@@ -41,11 +47,11 @@ class LoginDialog extends Component {
     });
 
     if (!email) {
-      this.setState({ emailError: true, emailHelperText: 'E-Mail is required'}); 
+      this.setState({ emailError: true, emailHelperText: 'E-Mail is required' });
     }
 
     if (!password) {
-      this.setState({ passwordError: true, passwordHelperText: 'Password is required'});
+      this.setState({ passwordError: true, passwordHelperText: 'Password is required' });
     }
 
     if (this.state.emailError || this.state.passwordError) {
@@ -57,7 +63,7 @@ class LoginDialog extends Component {
         this.props.dispatch(setCurrentUser(token));
         this.handleClose();
       });
-  }
+  };
 
   handleTextChange = name => ({ target }) => this.setState({ [name]: target.value });
 

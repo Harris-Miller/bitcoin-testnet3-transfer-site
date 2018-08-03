@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -15,8 +16,18 @@ import TextInput from '../../components/text-input';
 import { addAddress, getAddresses } from '../../actions/address';
 
 class AddAddressDialog extends Component {
+  static propTypes = {
+    onClose: PropTypes.func,
+    auth: PropTypes.shape().isRequired,
+    dispatch: PropTypes.func.isRequired,
+    classes: PropTypes.shape().isRequired
+  };
+
+  static defaultProps = {
+    onClose: () => {}
+  };
+
   state = {
-    open: false,
     showQrReader: false,
     address: '',
     addressError: false,
@@ -25,15 +36,11 @@ class AddAddressDialog extends Component {
 
   handleTextChange = name => ({ target }) => this.setState({ [name]: target.value });
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
   handleClose = () => {
     this.props.onClose();
   };
 
-  handleError = err => {
+  handleError = () => {
     // ignore errors
   };
 
@@ -42,7 +49,7 @@ class AddAddressDialog extends Component {
       const address = result.includes(':')
         ? result.split(':')[1]
         : result;
-      
+
       this.setState({ address, showQrReader: false });
     }
   };
@@ -52,12 +59,12 @@ class AddAddressDialog extends Component {
       method: 'POST'
       // headers: { 'Access-Control-Request-Headers': null }
     })
-    .then(data => data.json())
-    .then(({ address }) => {
-      this.setState({ address }, () => {
-        this.addAddress();
+      .then(data => data.json())
+      .then(({ address }) => {
+        this.setState({ address }, () => {
+          this.addAddress();
+        });
       });
-    });
   };
 
   addAddress = () => {
@@ -72,7 +79,7 @@ class AddAddressDialog extends Component {
     });
 
     if (!address) {
-      this.setState({ addressError: true, addressHelperText: 'Address is required'}); 
+      this.setState({ addressError: true, addressHelperText: 'Address is required' });
     }
 
     if (this.state.addressError) {
@@ -80,10 +87,10 @@ class AddAddressDialog extends Component {
     }
 
     addAddress(userId, address)
-      .then(address => {
+      .then(() => {
         dispatch(getAddresses(userId));
-        this.handleClose()
-      })
+        this.handleClose();
+      });
   };
 
   render() {

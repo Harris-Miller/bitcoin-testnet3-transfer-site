@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
@@ -35,25 +35,25 @@ const styles = theme => ({
     zIndex: 1,
     position: 'relative',
     display: 'flex',
-    width: '100%',
+    width: '100%'
   },
   appBar: {
     position: 'absolute',
     marginLeft: drawerWidth,
     [theme.breakpoints.up('md')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
+      width: `calc(100% - ${drawerWidth}px)`
     }
   },
   navIconHide: {
     [theme.breakpoints.up('md')]: {
-      display: 'none',
+      display: 'none'
     }
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
     [theme.breakpoints.up('md')]: {
-      position: 'relative',
+      position: 'relative'
     }
   },
   content: {
@@ -81,9 +81,12 @@ const styles = theme => ({
 
 class ResponsiveDrawer extends Component {
   static propTypes = {
-    classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired
+    classes: PropTypes.shape().isRequired,
+    theme: PropTypes.shape().isRequired,
+    auth: PropTypes.shape().isRequired,
+    dispatch: PropTypes.func.isRequired,
+    history: PropTypes.shape().isRequired,
+    children: PropTypes.element.isRequired
   };
 
   state = {
@@ -196,7 +199,7 @@ class ResponsiveDrawer extends Component {
                   <HomeIcon />
                 </IconButton>
               </Tooltip>
-                <Tooltip title="Github">
+              <Tooltip title="Github">
                 <IconButton color="inherit" >
                   <a
                     href="https://github.com/Harris-Miller/bitcoin-testnet3-transfer-site"
@@ -218,10 +221,10 @@ class ResponsiveDrawer extends Component {
             open={this.state.mobileOpen}
             onClose={this.handleDrawerToggle}
             classes={{
-              paper: classes.drawerPaper,
+              paper: classes.drawerPaper
             }}
             ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
+              keepMounted: true // Better open performance on mobile.
             }}
           >
             {drawer}
@@ -232,7 +235,7 @@ class ResponsiveDrawer extends Component {
             variant="permanent"
             open
             classes={{
-              paper: classes.drawerPaper,
+              paper: classes.drawerPaper
             }}
           >
             {drawer}

@@ -9,8 +9,8 @@ const styles = theme => ({
   absolute: {
     position: 'absolute',
     bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 3,
-  },
+    right: theme.spacing.unit * 3
+  }
 });
 
 const Fab = props => {
@@ -25,10 +25,14 @@ const Fab = props => {
       </Tooltip>
     </div>
   );
-}
+};
+
+Fab.defaultProps = {
+  onClick: () => {}
+};
 
 Fab.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.shape().isRequired,
   onClick: PropTypes.func
 };
 

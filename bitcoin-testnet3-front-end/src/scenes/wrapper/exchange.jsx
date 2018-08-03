@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -9,13 +10,18 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Tooltip from '@material-ui/core/Tooltip';
 import BitcoinExchangeIcon from './bitcoin-exchange-icon';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
-   display: 'inline-flex'
+    display: 'inline-flex'
   }
 });
 
 class Exchange extends Component {
+  static propTypes = {
+    classes: PropTypes.shape().isRequired,
+    bpi: PropTypes.shape().isRequired
+  };
+
   state = {
     anchorEl: null
   };

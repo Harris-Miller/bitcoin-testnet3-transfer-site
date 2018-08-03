@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -8,14 +9,23 @@ import withMobileDialog from '@material-ui/core/withMobileDialog';
 import QRCode from 'qrcode.react';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     flexGrow: 1
   }
 });
 
-
 class QRCodeDialog extends Component {
+  static propTypes = {
+    onClose: PropTypes.func,
+    classes: PropTypes.shape().isRequired,
+    address: PropTypes.shape().isRequired
+  };
+
+  static defaultProps = {
+    onClose: () => {}
+  };
+
   handleClose = () => {
     this.props.onClose();
   };

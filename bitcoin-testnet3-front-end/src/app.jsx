@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {
@@ -22,25 +22,21 @@ if (jwtToken && jwtToken !== 'null') {
   store.dispatch(setCurrentUser(jwtToken));
 }
 
-class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Fragment>
-          <CssBaseline />
-          <Router>
-            <Wrapper>
-              <Switch>
-                <Route exact path="/" component={Intro} />
-                <AuthenticatedRoute path="/address/:address" component={Address} />
-                <Route component={NotFound} />
-              </Switch>
-            </Wrapper>
-          </Router>
-        </Fragment>
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <Fragment>
+      <CssBaseline />
+      <Router>
+        <Wrapper>
+          <Switch>
+            <Route exact path="/" component={Intro} />
+            <AuthenticatedRoute path="/address/:address" component={Address} />
+            <Route component={NotFound} />
+          </Switch>
+        </Wrapper>
+      </Router>
+    </Fragment>
+  </Provider>
+);
 
 export default App;

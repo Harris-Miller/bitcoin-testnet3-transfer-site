@@ -1,0 +1,4 @@
+# only do folders that are our code, ignore create-react-app code
+build
+config
+scripts

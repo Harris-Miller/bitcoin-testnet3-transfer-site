@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const styles = () => ({
   text: {
     paddingRight: '8px'
   }
@@ -14,7 +14,9 @@ const styles = theme => ({
 class BalanceDisplay extends Component {
   static propTypes = {
     text: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired
+    value: PropTypes.number.isRequired,
+    classes: PropTypes.shape().isRequired,
+    bpi: PropTypes.shape().isRequired
   };
 
   convertTomBTC = value => (value * 10e-6);
@@ -24,8 +26,8 @@ class BalanceDisplay extends Component {
   render() {
     const { text, value, classes } = this.props;
 
-    const mBtcValue = this.convertTomBTC(value)
-    const usdValue = this.convertToUSD(value)
+    const mBtcValue = this.convertTomBTC(value);
+    const usdValue = this.convertToUSD(value);
 
     return (
       <Grid container alignItems="center">

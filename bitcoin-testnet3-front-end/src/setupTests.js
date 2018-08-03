@@ -1,3 +1,6 @@
+/* eslint-disable filenames/match-regex */
+/* eslint-disable import/no-extraneous-dependencies */
+
 // this file is automatically read by `react-scripts test`
 
 import Enzyme from 'enzyme';
@@ -11,4 +14,4 @@ const localStorageMock = {
   clear: jest.fn()
 };
 
-global.localStorage = localStorageMock
+global.localStorage = localStorageMock;

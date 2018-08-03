@@ -9,5 +9,4 @@ socket.on('transaction', txs => {
   store.dispatch(setTransaction(txs));
 });
 
-
 export default socket;

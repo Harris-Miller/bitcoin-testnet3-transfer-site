@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -17,8 +18,15 @@ const styles = theme => ({
 });
 
 class Addresses extends Component {
-  state = {
-    open: false
+  static propTypes = {
+    closeDrawer: PropTypes.func,
+    history: PropTypes.shape().isRequired,
+    classes: PropTypes.shape().isRequired,
+    addresses: PropTypes.shape().isRequired
+  };
+
+  static defaultProps = {
+    closeDrawer: () => {}
   };
 
   handleClick = key => {

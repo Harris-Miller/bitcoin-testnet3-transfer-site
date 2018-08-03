@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router'
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Tooltip from '@material-ui/core/Tooltip';
-import SettingsOverscan from '@material-ui/icons/SettingsOverscan'
+import SettingsOverscan from '@material-ui/icons/SettingsOverscan';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { removeAddress, getAddresses } from '../../actions/address';
 import QRCodeDialog from './qr-code-dialog';
@@ -20,7 +20,7 @@ const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2
   },
   row: {
     marginBottom: '16px'
@@ -29,7 +29,11 @@ const styles = theme => ({
 
 class AddressTitle extends Component {
   static propTypes = {
-    address: PropTypes.object.isRequired
+    address: PropTypes.shape().isRequired,
+    auth: PropTypes.shape().isRequired,
+    dispatch: PropTypes.func.isRequired,
+    history: PropTypes.shape().isRequired,
+    classes: PropTypes.shape().isRequired
   };
 
   state = {
@@ -42,7 +46,7 @@ class AddressTitle extends Component {
     const userId = auth.user.id;
 
     removeAddress(userId, address.address)
-      .then(address => {
+      .then(() => {
         dispatch(getAddresses(userId));
         history.push('/');
       });
@@ -82,7 +86,7 @@ class AddressTitle extends Component {
           </Hidden>
         </Grid>
         <Grid container className={classes.row}>
-          <Grid item xs={12} md={4}>          
+          <Grid item xs={12} md={4}>
             <BalanceDisplay text="Balance" value={address.balance} />
           </Grid>
           <Grid item xs={12} md={4}>

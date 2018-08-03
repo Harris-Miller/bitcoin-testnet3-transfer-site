@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -14,7 +15,7 @@ import BalanceDisplay from './balance-display';
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: '100%'
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -28,20 +29,26 @@ const styles = theme => ({
 function sortTransactionsKeysByRecieved(txs) {
   return Object.keys(txs)
     .sort((a, b) => {
-       const aDate = new Date(txs[a].received);
-       const bDate = new Date(txs[b].received);
+      const aDate = new Date(txs[a].received);
+      const bDate = new Date(txs[b].received);
 
-       if (aDate > bDate) { return -1; }
-       if (bDate > aDate) { return 1; }
+      if (aDate > bDate) { return -1; }
+      if (bDate > aDate) { return 1; }
 
-       return 0
+      return 0;
     });
 }
 
 class Address extends Component {
+  static propTypes = {
+    classes: PropTypes.shape().isRequired,
+    match: PropTypes.shape().isRequired,
+    addresses: PropTypes.shape().isRequired
+  };
+
   progressPercentage = confirmations => ((confirmations >= 6) ? 100 : ((confirmations / 6) * 100));
 
-  progressColor = confirmations => (confirmations >= 6) ? 'primary' : 'secondary';
+  progressColor = confirmations => ((confirmations >= 6) ? 'primary' : 'secondary');
 
   withAddress(address) {
     const { classes } = this.props;
@@ -49,33 +56,36 @@ class Address extends Component {
     const transactionPanel = (txs, addr) => {
       const txsValue = txs.outputs.filter(t => t.addresses && t.addresses.includes(addr))[0].value;
 
-      return (<ExpansionPanel key={txs.hash}>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography component="span" className={classes.heading} gutterBottom={true}>{txs.hash}</Typography>
+      return (
+        <ExpansionPanel key={txs.hash}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography component="span" className={classes.heading} gutterBottom>{txs.hash}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <LinearProgress
+                  variant="buffer"
+                  color={this.progressColor(txs.confirmations)}
+                  value={this.progressPercentage(txs.confirmations)}
+                  valueBuffer={100}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <LinearProgress
-                variant="buffer"
-                color={this.progressColor(txs.confirmations)}
-                value={this.progressPercentage(txs.confirmations)}
-                valueBuffer={100} />
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Grid container justify="space-between" alignItems="center">
+              <Grid item xs={12} md={6}>
+                <BalanceDisplay text="Value" value={txsValue} />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography>Received: {txs.received && moment(txs.received).format('M/D/Y h:mm:ss a')}</Typography>
+              </Grid>
             </Grid>
-          </Grid>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Grid container justify="space-between" alignItems="center">
-            <Grid item xs={12} md={6}>
-              <BalanceDisplay text="Value" value={txsValue} />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography>Received: {txs.received && moment(txs.received).format('M/D/Y h:mm:ss a')}</Typography>
-            </Grid>
-          </Grid>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-    )};
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      );
+    };
 
     return (
       <div>
@@ -95,7 +105,7 @@ class Address extends Component {
     const { match, addresses } = this.props;
     const address = addresses[match.params.address];
 
-    return address ? this.withAddress(address) : (<div></div>);
+    return address ? this.withAddress(address) : (<div />);
   }
 }
 
