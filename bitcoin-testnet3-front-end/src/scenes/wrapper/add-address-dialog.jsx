@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import QrReader from 'react-qr-reader';
+import axios from 'axios';
 import TextInput from '../../components/text-input';
 import { addAddress, getAddresses } from '../../actions/address';
 
@@ -45,6 +46,19 @@ class AddAddressDialog extends Component {
       
       this.setState({ address, showQrReader: false });
     }
+  };
+
+  createNewAddress = () => {
+    fetch('https://api.blockcypher.com/v1/btc/test3/addrs', {
+      method: 'POST'
+      // headers: { 'Access-Control-Request-Headers': null }
+    })
+    .then(data => data.json())
+    .then(({ address }) => {
+      this.setState({ address }, () => {
+        this.addAddress();
+      });
+    });
   };
 
   addAddress = () => {
@@ -122,6 +136,11 @@ class AddAddressDialog extends Component {
                   />
                 </Grid>
               }
+              <Grid item>
+                <Button onClick={this.createNewAddress} color="primary">
+                  Create New Address
+                </Button>
+              </Grid>
             </Grid>
           </DialogContent>
           <DialogActions>
