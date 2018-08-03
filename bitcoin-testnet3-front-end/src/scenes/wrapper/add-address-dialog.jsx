@@ -11,7 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import QrReader from 'react-qr-reader';
-import axios from 'axios';
 import TextInput from '../../components/text-input';
 import { addAddress, getAddresses } from '../../actions/address';
 
