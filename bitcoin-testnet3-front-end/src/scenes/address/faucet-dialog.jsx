@@ -8,7 +8,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
-import QRCode from 'qrcode.react';
 import { withStyles } from '@material-ui/core/styles';
 import TextInput from '../../components/text-input';
 import { faucetAddress } from '../../actions/address';
