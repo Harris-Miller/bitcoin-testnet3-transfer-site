@@ -115,4 +115,26 @@ router.route('/:id/addresses/:address').delete(authenticate, authorizeByIdParam,
     });
 });
 
+router.route('/:id/addresses/:address/faucet/:amount').get(authenticate, authorizeByIdParam, (req, res, next) => {
+  const { address: key, id: userId, amount } = req.params;
+
+  Address
+    .query({ where: { key, user_id: userId } })
+    .fetch()
+    .then(address => {
+      if (!address) {
+        return next(new createError.BadRequest('Address does not exist for User'));
+      }
+
+      // faucet in new funds
+      return axios
+        .post(`https://api.blockcypher.com/v1/bcy/test/faucet?token=${BLOCKCYPHER_TOKEN}`, {
+          address: key,
+          amount
+        })
+        .then(() => res.status(202).end())
+        .catch(() => next(new createError.InternalServerError('Unable to faucet funds at this time')));
+    });
+});
+
 module.exports = router;

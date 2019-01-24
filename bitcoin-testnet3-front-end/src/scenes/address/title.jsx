@@ -9,11 +9,13 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Tooltip from '@material-ui/core/Tooltip';
+import FormatColorFill from '@material-ui/icons/FormatColorFill';
 import SettingsOverscan from '@material-ui/icons/SettingsOverscan';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { removeAddress, getAddresses } from '../../actions/address';
 import QRCodeDialog from './qr-code-dialog';
 import RemoveConfirmationDialog from './remove-confirmation-dialog';
+import FaucetDialog from './faucet-dialog';
 import BalanceDisplay from './balance-display';
 
 const styles = theme => ({
@@ -38,7 +40,8 @@ class AddressTitle extends Component {
 
   state = {
     qrDialogOpen: false,
-    removeDialogOpen: false
+    removeDialogOpen: false,
+    faucetDialogOpen: false
   };
 
   removeAddress = () => {
@@ -66,6 +69,11 @@ class AddressTitle extends Component {
           <Grid item xs={4}>
             <Grid container justify="flex-end">
               <Grid item>
+                <Tooltip title="Faucet funds into Address">
+                  <IconButton onClick={() => this.setState({ faucetDialogOpen: true })}>
+                    <FormatColorFill />
+                  </IconButton>
+                </Tooltip>
                 <Tooltip title="Display QR Code">
                   <IconButton onClick={() => this.setState({ qrDialogOpen: true })}>
                     <SettingsOverscan />
@@ -101,11 +109,20 @@ class AddressTitle extends Component {
             <Typography>Transactions: {Object.keys(address.txs).length}</Typography>
           </Grid>
         </Grid>
-        <QRCodeDialog open={this.state.qrDialogOpen} address={address.address} onClose={() => this.setState({ qrDialogOpen: false })} />
+        <QRCodeDialog
+          open={this.state.qrDialogOpen}
+          address={address.address}
+          onClose={() => this.setState({ qrDialogOpen: false })}
+        />
         <RemoveConfirmationDialog
           open={this.state.removeDialogOpen}
           onClose={() => this.setState({ removeDialogOpen: false })}
           onConfirm={this.removeAddress}
+        />
+        <FaucetDialog
+          open={this.state.faucetDialogOpen}
+          address={address.address}
+          onClose={() => this.setState({ faucetDialogOpen: false })}
         />
       </Paper>
     );

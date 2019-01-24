@@ -33,3 +33,7 @@ export function setTransaction(data) {
     data
   };
 }
+
+export function faucetAddress(userId, address, amount) {
+  return api.get(`/api/users/${userId}/addresses/${address}/faucet/${amount}`);
+}
