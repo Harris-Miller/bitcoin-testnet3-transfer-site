@@ -85,7 +85,7 @@ class FaucetDialog extends Component {
               <Grid item xs={12}>
                 If you get an error, try this site:
                 <br />
-                <a href="https://coinfaucet.eu/en/btc-testnet/" rel="noopener noreferrer">https://coinfaucet.eu/en/btc-testnet/</a>
+                <a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener noreferrer">https://coinfaucet.eu/en/btc-testnet/</a>
               </Grid>
             </Grid>
           </DialogContent>
